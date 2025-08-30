@@ -5,11 +5,12 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
-  initialRouteName: "(tabs)"
+  initialRouteName: "login"
 };
 
 SplashScreen.preventAutoHideAsync();
@@ -39,10 +40,15 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-    </Stack>
+    <SafeAreaProvider>
+      <Stack initialRouteName="login">
+        <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+        <Stack.Screen name="agreement" options={{ title: "약관 동의 화면" }} />
+        <Stack.Screen name="addinfo" options={{ title: "추가 정보 입력" }} />
+      </Stack>
+    </SafeAreaProvider>
   );
 }
 
