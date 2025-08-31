@@ -2,6 +2,7 @@
   "expo": {
     "name": "crumb",
     "slug": "crumb",
+    "owner": "crumbsbbangsaeng",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -38,7 +39,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "fb54ec10-faa9-4057-89e8-d1770e09b42a"
+        "projectId": "ed06a817-0ffe-4bbc-8ec0-c7a9c412b12f"
       }
     }
   }
