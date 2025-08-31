@@ -11,10 +11,10 @@ export default function LoginScreen() {
 
   return (
     <View className="flex-1 items-center justify-center p-4">
-      <Text className="text-2xl font-bold mb-4">로고</Text>
-      <Text className="text-2xl font-bold mb-4">로그인 화면</Text>
+      <Text className="text-2xl font-bold mb-4 font-suit-bold">로고</Text>
+      <Text className="text-2xl font-bold mb-4 font-suit-bold">로그인 화면</Text>
       <TouchableOpacity className="mt-4 p-2 bg-blue-500 rounded" onPress={handleLogin}>
-        <Text className="text-white">카카오로 로그인하기</Text>
+        <Text className="text-white font-suit-bold">카카오로 로그인하기</Text>
       </TouchableOpacity>
     </View>
   );
