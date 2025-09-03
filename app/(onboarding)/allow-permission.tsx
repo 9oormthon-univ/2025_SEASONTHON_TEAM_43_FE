@@ -3,10 +3,8 @@ import { useState } from "react";
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import AgreementItem from "../../components/allow-permission/AgreementItem";
 import { AGREEMENT_TERMS, AgreementKey } from "../../constants/terms";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function AllowPermissionScreen() {
-  const insets = useSafeAreaInsets();
   const [agreements, setAgreements] = useState({
     service: false,
     privacy: false,
@@ -22,11 +20,11 @@ export default function AllowPermissionScreen() {
   };
 
   return (
-    <View className="flex-1 bg-white" style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}>
+    <View className="flex-1 bg-white">
       {/* 상단 고정 영역 */}
-      <View className="bg-white pt-16 px-4 pb-4">
-        {/* 모두 동의 버튼 */}
-        <TouchableOpacity
+      {/* <View className="bg-white pt-6 px-4 pb-4"> */}
+      {/* 모두 동의 버튼 */}
+      {/* <TouchableOpacity
           className="bg-gray-800 p-4 rounded-2xl"
           onPress={() => {
             // 모든 동의 항목을 true로 설정
@@ -40,11 +38,11 @@ export default function AllowPermissionScreen() {
         >
           <Text className="text-white text-center text-lg font-bold">약관에 모두 동의</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       {/* 스크롤 가능한 동의 항목들 */}
       <ScrollView
-        className="flex-1 px-4"
+        className="flex-1 px-4 pt-6"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
       >

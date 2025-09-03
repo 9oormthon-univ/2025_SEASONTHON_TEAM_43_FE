@@ -1,6 +1,6 @@
 export const AGREEMENT_TERMS = {
   service: {
-    title: "서비스 이용약관 동의",
+    title: "서비스 이용약관 (필수)",
     content: `빵생빵사 서비스를 이용하기 위한 기본 약관입니다.
     - 본 서비스는 빵집 정보 및 코스 공유 플랫폼입니다
     - 사용자는 정확한 정보를 제공해야 합니다
@@ -9,7 +9,7 @@ export const AGREEMENT_TERMS = {
     isRequired: true
   },
   privacy: {
-    title: "개인정보 처리방침 동의",
+    title: "개인정보 처리방침 (필수)",
     content: `개인정보 수집 및 이용에 대한 안내입니다.
     수집하는 개인정보:
       - 카카오 계정 정보 (닉네임, 프로필 사진)
@@ -25,7 +25,7 @@ export const AGREEMENT_TERMS = {
     isRequired: true
   },
   location: {
-    title: "위치정보 이용 동의",
+    title: "위치기반서비스 이용약관 (필수)",
     content: `위치 정보 수집 및 이용에 대한 약관입니다.
   위치정보 수집 목적:
     - 현재 위치 주변 빵집 검색

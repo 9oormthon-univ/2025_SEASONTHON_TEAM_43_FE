@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Text, View, Switch, TouchableOpacity, Animated, ScrollView } from "react-native";
+import { Text, View, Pressable, TouchableOpacity, Animated, ScrollView } from "react-native";
+import ScrollDownIcon from "../../assets/images/ic_scroll_down.svg";
+import ScrollUpIcon from "../../assets/images/ic_scroll_up.svg";
 
 interface AgreementItemProps {
   title: string;
@@ -34,45 +36,35 @@ export default function AgreementItem({
   });
 
   return (
-    <View className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-2">
-      {/* 헤더 부분 */}
-      <View className="p-4">
-        <View className="flex-row items-center justify-between">
-          <TouchableOpacity onPress={toggleExpanded} className="flex-1 mr-4" activeOpacity={0.7}>
-            <Text className="text-black text-base font-bold">
-              {title}
-              {isRequired && <Text className="text-red-500 font-bold"> *</Text>}
-            </Text>
-          </TouchableOpacity>
-          <Switch
-            trackColor={{ false: "#e5e7eb", true: "#10b981" }}
-            thumbColor={value ? "#ffffff" : "#ffffff"}
-            ios_backgroundColor="#e5e7eb"
-            onValueChange={onValueChange}
-            value={value}
-          />
+    <View className="bg-white overflow-hidden px-6">
+      <View className="border-b-[1px] border-grey-3 py-3">
+        {/* 헤더 부분 */}
+        <View>
+          <View className="flex-row items-center justify-between">
+            <TouchableOpacity onPress={toggleExpanded} className="flex-1 mr-4" activeOpacity={0.7}>
+              <Text className="body4 text-black">
+                {title}
+                {isRequired && <Text className="text-red-500 font-bold"> *</Text>}
+              </Text>
+            </TouchableOpacity>
+
+            <Pressable onPress={toggleExpanded}>{isExpanded ? <ScrollUpIcon /> : <ScrollDownIcon />}</Pressable>
+          </View>
         </View>
 
-        {/* 드롭다운 화살표 */}
-        <TouchableOpacity onPress={toggleExpanded} className="mt-2" activeOpacity={0.7}>
-          <Text className="text-gray-500 text-sm font-bold">
-            {isExpanded ? "▼ 약관 내용 접기" : "▶ 약관 내용 보기"}
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* 드롭다운 내용 */}
-      {content && (
-        <Animated.View style={{ maxHeight }}>
-          <View className="px-4 pb-4">
-            <View className="border-t border-gray-100 pt-4">
-              <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} className="max-h-48">
-                <Text className="text-gray-600 text-sm leading-5 font-bold">{content}</Text>
-              </ScrollView>
+        {/* 드롭다운 내용 */}
+        {content && (
+          <Animated.View style={{ maxHeight }}>
+            <View className="py-3 pb-3">
+              <View>
+                <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} className="max-h-48">
+                  <Text className="caption1 text-grey-4">{content}</Text>
+                </ScrollView>
+              </View>
             </View>
-          </View>
-        </Animated.View>
-      )}
+          </Animated.View>
+        )}
+      </View>
     </View>
   );
 }
