@@ -1,10 +1,13 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
+import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
+import { logout } from "./request/auth";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_BASE_URL
 });
 
+// 요청 인터셉터: accessToken 붙이기
 axiosInstance.interceptors.request.use(
   async (config) => {
     const accessToken = await SecureStore.getItemAsync("accessToken");
@@ -23,73 +26,27 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-interface CustomInternalAxiosRequestConfig extends AxiosRequestConfig {
-  _retry?: boolean;
-}
-
-let refreshPromise: Promise<string> | null = null;
-
+// 응답 인터셉터: 401 → 자동 로그아웃 + 로그인 화면 이동
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest: CustomInternalAxiosRequestConfig = error.config;
-
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
-      if (originalRequest.url === "/api/auth/reissue") {
+    if (error.response?.status === 401) {
+      try {
+        // 저장된 토큰 삭제
         await SecureStore.deleteItemAsync("accessToken");
         await SecureStore.deleteItemAsync("refreshToken");
-        return Promise.reject(error);
+
+        // AuthContext 로그아웃 함수 실행 (세션 정리)
+        await logout?.();
+
+        // 로그인 화면으로 이동
+        router.replace("/(auth)/login");
+      } catch (err) {
+        if (__DEV__) {
+          console.error("❌ 401 처리 중 오류:", err);
+        }
       }
-
-      originalRequest._retry = true;
-
-      if (!refreshPromise) {
-        refreshPromise = (async () => {
-          const refreshToken = await SecureStore.getItemAsync("refreshToken");
-
-          const { data } = await axiosInstance.post("/api/auth/reissue", {
-            refreshToken
-          });
-
-          await SecureStore.setItemAsync("accessToken", data.result.accessToken);
-          await SecureStore.setItemAsync("refreshToken", data.result.refreshToken);
-
-          return data.result.accessToken;
-        })()
-          .catch((err: any) => {
-            if (__DEV__) {
-              if (err.response) {
-                console.error("Refresh token expired:", {
-                  status: err.response.status,
-                  data: err.response.data,
-                  headers: err.response.headers
-                });
-              } else {
-                console.error("Refresh token error (no response):", err.message || err);
-              }
-            }
-            SecureStore.deleteItemAsync("accessToken");
-            SecureStore.deleteItemAsync("refreshToken");
-            throw new Error("refresh token expired");
-          })
-          .finally(() => {
-            refreshPromise = null;
-          });
-      }
-
-      return refreshPromise
-        .then((newAccessToken) => {
-          originalRequest.headers = {
-            ...originalRequest.headers,
-            Authorization: `Bearer ${newAccessToken}`
-          };
-          return axiosInstance.request(originalRequest);
-        })
-        .catch((err) => {
-          return Promise.reject(err);
-        });
     }
-
     return Promise.reject(error);
   }
 );
