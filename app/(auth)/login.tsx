@@ -1,12 +1,33 @@
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useEffect } from "react";
 import { router } from "expo-router";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, Alert } from "react-native";
+import { getKeyHashAndroid, initializeKakaoSDK } from "@react-native-kakao/core";
+import { useAuth } from "@/context/AuthContext";
+import { login as kakaoLogin } from "@react-native-kakao/user";
 
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
-  const handleLogin = () => {
-    // TODO: 카카오 로그인 로직 추가
-    // router.push("/agreement");
+  const { login } = useAuth();
+
+  useEffect(() => {
+    initializeKakaoSDK("083512cd4066153c92c1f28bfed50a2b"); // 네이티브앱키
+  }, []);
+
+  const handleLogin = async () => {
+    if (__DEV__) {
+      console.log(await getKeyHashAndroid());
+    }
+    try {
+      const result = await kakaoLogin();
+      const kakaoAccessToken = result.accessToken;
+      await login(kakaoAccessToken);
+    } catch (error) {
+      if (__DEV__) {
+        console.error("카카오 로그인 실패:", error);
+      }
+      Alert.alert("로그인 실패", "카카오 로그인 중 문제가 발생했어요. 다시 시도해주세요.");
+    }
   };
 
   return (

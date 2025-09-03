@@ -3,6 +3,7 @@ import "../global.css";
 import "react-native-reanimated";
 import { Stack, Redirect } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AuthProvider } from "@/context/AuthContext";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
@@ -43,11 +44,13 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(auth)" />
-        <Stack.Screen name="(onboarding)" />
-        <Stack.Screen name="(tabs)" />
-      </Stack>
+      <AuthProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(onboarding)" />
+          <Stack.Screen name="(tabs)" />
+        </Stack>
+      </AuthProvider>
       <Redirect href={route} />
     </SafeAreaProvider>
   );
