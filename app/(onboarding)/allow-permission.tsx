@@ -3,8 +3,10 @@ import { useState } from "react";
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import AgreementItem from "../../components/allow-permission/AgreementItem";
 import { AGREEMENT_TERMS, AgreementKey } from "../../constants/terms";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function AllowPermissionScreen() {
+  const insets = useSafeAreaInsets();
   const [agreements, setAgreements] = useState({
     service: false,
     privacy: false,
@@ -20,7 +22,7 @@ export default function AllowPermissionScreen() {
   };
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-white" style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}>
       {/* 상단 고정 영역 */}
       <View className="bg-white pt-16 px-4 pb-4">
         {/* 모두 동의 버튼 */}

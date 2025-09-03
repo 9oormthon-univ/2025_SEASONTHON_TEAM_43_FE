@@ -2,13 +2,15 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { Text, View, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function AddInfoScreen() {
+  const insets = useSafeAreaInsets();
   const [nickname, setNickname] = useState("");
   const [interestArea, setInterestArea] = useState("");
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-white" style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}>
       {/* 상단 여백 */}
       <View className="h-16" />
 
