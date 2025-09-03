@@ -2,11 +2,11 @@ import React from "react";
 import { Tabs } from "expo-router";
 
 import MapActive from "../../assets/images/ic_map_active.svg";
-import MapInactive from "../../assets/images/ic_map_unactive.svg";
+import MapInactive from "../../assets/images/ic_map_inactive.svg";
 import CourseActive from "../../assets/images/ic_course_active.svg";
-import CourseInactive from "../../assets/images/ic_course_unactive.svg";
+import CourseInactive from "../../assets/images/ic_course_inactive.svg";
 import DiaryActive from "../../assets/images/ic_diary_active.svg";
-import DiaryInactive from "../../assets/images/ic_diary_unactive.svg";
+import DiaryInactive from "../../assets/images/ic_diary_inactive.svg";
 
 export default function TabLayout() {
   return (
