@@ -1,5 +1,5 @@
-import { router } from "expo-router";
-import { useState } from "react";
+import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
+import { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,6 +9,14 @@ export default function AddInfoScreen() {
   const insets = useSafeAreaInsets();
   const [nickname, setNickname] = useState("");
   const [interestArea, setInterestArea] = useState("");
+  const { address } = useLocalSearchParams<{ address?: string }>(); // ✅ 주소 파라미터
+
+  // (2) 파라미터가 바뀌면 상태에 반영
+  useEffect(() => {
+    if (typeof address === "string" && address && address !== interestArea) {
+      setInterestArea(address);
+    }
+  }, [address]);
 
   return (
     <View className="flex-1 bg-white pt-5">
@@ -30,7 +38,15 @@ export default function AddInfoScreen() {
         {/* 관심지역 설정 섹션 */}
         <View className="mb-3">
           <Text className="body1 font-suit-bold font-bold text-point-3 pb-3">내 지역 찾기</Text>
-          <SearchBox interestArea={interestArea} setInterestArea={setInterestArea} />
+          <SearchBox
+            onPress={() => {
+              // 검색창 클릭 시 동작 -> 검색 화면으로 이동
+              console.log("검색창 클릭됨");
+              router.push("/(onboarding)/search-myarea");
+            }}
+            interestArea={interestArea}
+            setInterestArea={setInterestArea}
+          />
         </View>
 
         {/* 지도 섹션 */}
