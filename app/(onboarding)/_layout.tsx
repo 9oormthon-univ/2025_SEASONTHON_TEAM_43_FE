@@ -16,13 +16,36 @@ export default function OnboardingLayout() {
               onPress={() => {
                 router.replace("/(auth)/login");
               }}
+              className="items-center justify-center h-7 w-7"
             >
-              <BackIcon />
+              <BackIcon className="item-center" />
             </Pressable>
           )
         }}
       />
-      <Stack.Screen name="add-info" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="add-info"
+        options={{
+          title: "회원정보 입력",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontFamily: "SUITBold",
+            fontSize: 20,
+            fontWeight: "bold",
+            color: "#282625"
+          },
+          headerLeft: () => (
+            <Pressable
+              onPress={() => {
+                router.replace("/(auth)/login");
+              }}
+              className="items-center justify-center h-7 w-7"
+            >
+              <BackIcon className="item-center" />
+            </Pressable>
+          )
+        }}
+      />
     </Stack>
   );
 }

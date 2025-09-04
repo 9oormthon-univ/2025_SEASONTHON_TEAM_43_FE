@@ -52,61 +52,72 @@ module.exports = {
           fontSize: "28px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold, sans-serif"
+          fontFamily: "SUITBold"
         },
         ".title1": {
           fontSize: "24px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold, sans-serif"
+          fontFamily: "SUITBold"
         },
         ".title2": {
           fontSize: "20px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold, sans-serif"
+          fontFamily: "SUITBold"
         },
         ".subtitle1": {
           fontSize: "18px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold, sans-serif"
+          fontFamily: "SUITBold"
         },
         ".subtitle2": {
           fontSize: "18px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITRegular, sans-serif"
+          fontFamily: "SUITRegular"
         },
         ".body1": {
           fontSize: "16px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold, sans-serif"
+          fontFamily: "SUITBold"
         },
         ".body2": {
           fontSize: "16px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITRegular, sans-serif"
+          fontFamily: "SUITRegular"
         },
         ".body3": {
           fontSize: "14px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold, sans-serif"
+          fontFamily: "SUITBold"
         },
         ".body4": {
           fontSize: "14px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITRegular, sans-serif"
+          fontFamily: "SUITRegular"
         },
         ".caption1": {
           fontSize: "12px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITSemibold, sans-serif"
+          fontFamily: "SUITSemiBold"
+        },
+
+        /* ===== Shadow utility class (RN-friendly) ===== */
+        ".shadow1": {
+          // iOS
+          shadowColor: "#222222",
+          shadowOffset: { width: 0, height: 0 },
+          shadowOpacity: 0.25, // 25%
+          shadowRadius: 10, // Blur 10
+          // Android
+          elevation: 10
         }
       };
       addUtilities(newUtilities);
