@@ -13,7 +13,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+// import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SearchBox from "../../components/add-info/SearchBox";
 import MapView from "@/components/add-info/MapView";

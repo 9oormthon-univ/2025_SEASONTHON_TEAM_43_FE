@@ -11,19 +11,23 @@ module.exports = {
           1: "#FFF6D9",
           2: "#F0CFB3",
           3: "#D56E14",
-          4: "#A55615"
+          4: "#A55615",
         },
         grey: {
           1: "#AEA196",
           2: "#E3E3E3",
           3: "#B1B1B1",
-          4: "#787878"
-        }
+          4: "#787878",
+        },
+        kakao: {
+          yellow: "#FEE500",
+          black: "#000000",
+        },
       },
       fontFamily: {
         "suit-regular": ["SUITRegular", "sans-serif"],
         "suit-semibold": ["SUITSemiBold", "sans-serif"],
-        "suit-bold": ["SUITBold", "sans-serif"]
+        "suit-bold": ["SUITBold", "sans-serif"],
       },
       fontSize: {
         display1: "28px",
@@ -35,15 +39,15 @@ module.exports = {
         body2: "16px",
         body3: "14px",
         body4: "14px",
-        caption1: "12px"
+        caption1: "12px",
       },
       lineHeight: {
-        140: "140%"
+        140: "140%",
       },
       letterSpacing: {
-        0: "0px"
-      }
-    }
+        0: "0px",
+      },
+    },
   },
   plugins: [
     function ({ addUtilities }) {
@@ -52,64 +56,64 @@ module.exports = {
           fontSize: "28px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold"
+          fontFamily: "SUITBold",
         },
         ".title1": {
           fontSize: "24px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold"
+          fontFamily: "SUITBold",
         },
         ".title2": {
           fontSize: "20px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold"
+          fontFamily: "SUITBold",
         },
         ".subtitle1": {
           fontSize: "18px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold"
+          fontFamily: "SUITBold",
         },
         ".subtitle2": {
           fontSize: "18px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITRegular"
+          fontFamily: "SUITRegular",
         },
         ".body1": {
           fontSize: "16px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold"
+          fontFamily: "SUITBold",
         },
         ".body2": {
           fontSize: "16px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITRegular"
+          fontFamily: "SUITRegular",
         },
         ".body3": {
           fontSize: "14px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITBold"
+          fontFamily: "SUITBold",
         },
         ".body4": {
           fontSize: "14px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITRegular"
+          fontFamily: "SUITRegular",
         },
         ".caption1": {
           fontSize: "12px",
           lineHeight: "140%",
           letterSpacing: "0px",
-          fontFamily: "SUITSemiBold"
-        }
+          fontFamily: "SUITSemiBold",
+        },
       };
       addUtilities(newUtilities);
-    }
-  ]
+    },
+  ],
 };

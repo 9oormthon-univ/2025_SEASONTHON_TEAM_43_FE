@@ -77,9 +77,9 @@ export default function MapView({ latitude, longitude }: KakaoMapProps) {
 const styles = StyleSheet.create({
   container: {
     width: screenWidth - 48,
-    height: 327
+    height: 327,
   },
   webview: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
