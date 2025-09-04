@@ -2,7 +2,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useEffect } from "react";
 import { router } from "expo-router";
 import { Text, View, TouchableOpacity, Alert } from "react-native";
-import { getKeyHashAndroid, initializeKakaoSDK } from "@react-native-kakao/core";
+import {
+  getKeyHashAndroid,
+  initializeKakaoSDK,
+} from "@react-native-kakao/core";
 import { login as kakaoLogin } from "@react-native-kakao/user";
 import { useAuth } from "@/context/AuthContext";
 
@@ -13,6 +16,25 @@ export default function LoginScreen() {
   useEffect(() => {
     initializeKakaoSDK("083512cd4066153c92c1f28bfed50a2b"); // 네이티브앱키
   }, []);
+
+  useEffect(() => {
+    // 이미 로그인된 상태인지 확인
+    (async () => {
+      const isLoggedIn = await checkIfLoggedIn();
+      if (isLoggedIn) {
+        router.replace("/(onboarding)/allow-permission");
+      }
+    })();
+  }, []);
+
+  const checkIfLoggedIn = async () => {
+    try {
+      const result = await kakaoLogin();
+      return !!result.accessToken;
+    } catch {
+      return false;
+    }
+  };
 
   const handleLogin = async () => {
     if (__DEV__) {
@@ -30,15 +52,24 @@ export default function LoginScreen() {
       if (__DEV__) {
         console.error("카카오 로그인 실패:", error);
       }
-      Alert.alert("로그인 실패", "카카오 로그인 중 문제가 발생했어요. 다시 시도해주세요.");
+      Alert.alert(
+        "로그인 실패",
+        "카카오 로그인 중 문제가 발생했어요. 다시 시도해주세요.",
+      );
     }
   };
 
   return (
-    <View className="flex-1 items-center justify-center p-4" style={{ paddingTop: insets.top }}>
+    <View
+      className="flex-1 items-center justify-center p-4"
+      style={{ paddingTop: insets.top }}
+    >
       <Text className="text-2xl mb-4 display1">로고</Text>
       <Text className="text-2xl mb-4 display1 text-point-4">로그인 화면</Text>
-      <TouchableOpacity className="p-3 bg-point-4 rounded" onPress={handleLogin}>
+      <TouchableOpacity
+        className="p-3 bg-point-4 rounded"
+        onPress={handleLogin}
+      >
         <Text className="text-white">카카오로 로그인하기</Text>
       </TouchableOpacity>
     </View>
