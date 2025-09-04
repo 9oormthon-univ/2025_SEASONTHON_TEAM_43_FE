@@ -1,15 +1,30 @@
 import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
 import { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+  Alert,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SearchBox from "../../components/add-info/SearchBox";
+import MapView from "@/components/add-info/MapView";
+import geocodeAddress from "@/utils/geocodeAddress";
 
 export default function AddInfoScreen() {
   const insets = useSafeAreaInsets();
   const [nickname, setNickname] = useState("");
   const [interestArea, setInterestArea] = useState("");
   const { address } = useLocalSearchParams<{ address?: string }>(); // ✅ 주소 파라미터
+
+  // 기본 서울시청 좌표
+  const [coords, setCoords] = useState<{ lat: number; lng: number }>({
+    lat: 37.5665,
+    lng: 126.978,
+  });
 
   // (2) 파라미터가 바뀌면 상태에 반영
   useEffect(() => {
@@ -18,12 +33,33 @@ export default function AddInfoScreen() {
     }
   }, [address]);
 
+  // 주소가 생기면 지오코딩 → 지도 좌표 갱신
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        if (typeof address === "string" && address) {
+          const c = await geocodeAddress(address);
+          if (!cancelled) setCoords(c);
+        }
+      } catch (e) {
+        console.warn("[geocode] 실패:", e);
+        Alert.alert("주소 변환 오류", "해당 주소의 좌표를 찾을 수 없습니다.");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [address]);
+
   return (
     <View className="flex-1 bg-white pt-5">
       <View className="flex-1 px-6">
         {/* 닉네임 입력 섹션 */}
         <View className="mb-9">
-          <Text className="body1 font-suit-bold font-bold text-point-3 pb-2">닉네임</Text>
+          <Text className="body1 font-suit-bold font-bold text-point-3 pb-2">
+            닉네임
+          </Text>
           <View className="bg-grey-2 px-[10px] py-[5px] rounded-lg flex-row justify-between items-center">
             <TextInput
               className="flex-1 rounded-lg text-black font-suit-regular font-normal"
@@ -37,7 +73,9 @@ export default function AddInfoScreen() {
 
         {/* 관심지역 설정 섹션 */}
         <View className="mb-3">
-          <Text className="body1 font-suit-bold font-bold text-point-3 pb-3">내 지역 찾기</Text>
+          <Text className="body1 font-suit-bold font-bold text-point-3 pb-3">
+            내 지역 찾기
+          </Text>
           <SearchBox
             onPress={() => {
               // 검색창 클릭 시 동작 -> 검색 화면으로 이동
@@ -50,14 +88,14 @@ export default function AddInfoScreen() {
         </View>
 
         {/* 지도 섹션 */}
-        <View>
-          <View className="bg-gray-100 rounded-2xl h-80 overflow-hidden">
-            {/* 지도 플레이스홀더 - 실제 지도 라이브러리로 교체 */}
-            <View className="flex-1 bg-gray-200 items-center justify-center">
-              <Ionicons name="map" size={48} color="#9ca3af" />
-              <Text className="text-gray-500 mt-2">지도가 여기에 표시됩니다</Text>
-              <Text className="text-gray-400 text-sm mt-1">실제 구현 시 지도 라이브러리 사용</Text>
-            </View>
+        <View className="flex-1 items-center justify-center">
+          <View className="bg-gray-700 overflow-hidden">
+            <MapView
+              latitude={coords.lat}
+              longitude={coords.lng}
+              // coords가 바뀔 때 WebView 강제 리로드 보장
+              key={`${coords.lat.toFixed(6)}-${coords.lng.toFixed(6)}`}
+            />
           </View>
         </View>
 
@@ -73,10 +111,12 @@ export default function AddInfoScreen() {
             // 저장 로직 구현
             console.log("닉네임:", nickname);
             console.log("관심지역:", interestArea);
-            // 여기에 저장 처리 및 다음 화면 이동 로직 추가
+            // 홈 화면(tabs의 index)으로 이동
           }}
         >
-          <Text className="body3 text-center text-grey-3 font-bold">회원가입하기</Text>
+          <Text className="body3 text-center text-grey-3 font-bold">
+            회원가입하기
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
