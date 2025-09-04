@@ -14,7 +14,7 @@ SplashScreen.preventAutoHideAsync(); // 스플래시 유지
 export default function RootLayout() {
   const [ready, setReady] = useState(false);
   const [route, setRoute] = useState<
-    "/(auth)/login" | "/(onboarding)/allow-permission" | "/(tabs)" | "/(onboarding)/add-info"
+    "/(auth)/login" | "/(onboarding)/allow-permission" | "/(tabs)"
   >("/(auth)/login");
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function RootLayout() {
         const onboardingDone = await AsyncStorage.getItem("onboarding_done");
 
         if (!token) {
-          setRoute("/(onboarding)/add-info");
+          setRoute("/(auth)/login");
         } else if (token && onboardingDone !== "true") {
           setRoute("/(onboarding)/allow-permission");
         } else {
