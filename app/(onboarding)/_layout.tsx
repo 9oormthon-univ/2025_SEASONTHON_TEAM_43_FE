@@ -14,7 +14,7 @@ export default function OnboardingLayout() {
           headerLeft: () => (
             <Pressable
               onPress={() => {
-                router.back();
+                router.replace("/(auth)/login");
               }}
             >
               <BackIcon />
