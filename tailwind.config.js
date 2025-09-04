@@ -107,17 +107,6 @@ module.exports = {
           lineHeight: "140%",
           letterSpacing: "0px",
           fontFamily: "SUITSemiBold"
-        },
-
-        /* ===== Shadow utility class (RN-friendly) ===== */
-        ".shadow1": {
-          // iOS
-          shadowColor: "#222222",
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.25, // 25%
-          shadowRadius: 10, // Blur 10
-          // Android
-          elevation: 10
         }
       };
       addUtilities(newUtilities);
