@@ -1,4 +1,9 @@
-import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
+import {
+  router,
+  useLocalSearchParams,
+  useFocusEffect,
+  useRouter,
+} from "expo-router";
 import { useState, useEffect } from "react";
 import {
   Text,
@@ -15,10 +20,15 @@ import MapView from "@/components/add-info/MapView";
 import geocodeAddress from "@/utils/geocodeAddress";
 
 export default function AddInfoScreen() {
+  const router = useRouter();
   const insets = useSafeAreaInsets();
   const [nickname, setNickname] = useState("");
   const [interestArea, setInterestArea] = useState("");
   const { address } = useLocalSearchParams<{ address?: string }>(); // ✅ 주소 파라미터
+
+  const nicknameValid = nickname.trim().length > 0;
+  const areaValid = interestArea.trim().length > 0;
+  const canSubmit = nicknameValid && areaValid;
 
   // 기본 서울시청 좌표
   const [coords, setCoords] = useState<{ lat: number; lng: number }>({
@@ -106,15 +116,24 @@ export default function AddInfoScreen() {
       {/* 저장 버튼 */}
       <View className="pt-5 px-6" style={{ paddingBottom: insets.bottom }}>
         <TouchableOpacity
-          className="bg-grey-2 py-3 rounded-lg"
+          className={`px-20 py-3 rounded-lg ${
+            canSubmit ? "bg-point-3" : "bg-gray-300"
+          }`}
+          disabled={!canSubmit}
+          activeOpacity={canSubmit ? 0.7 : 1}
           onPress={() => {
-            // 저장 로직 구현
+            if (!canSubmit) return;
+            // TODO: 저장 및 다음 화면 이동
             console.log("닉네임:", nickname);
-            console.log("관심지역:", interestArea);
-            // 홈 화면(tabs의 index)으로 이동
+            console.log("관심지역:", interestArea, coords);
+            router.push("/(tabs)");
           }}
         >
-          <Text className="body3 text-center text-grey-3 font-bold">
+          <Text
+            className={`text-center body3 font-bold ${
+              canSubmit ? "text-point-1" : "text-gray-500"
+            }`}
+          >
             회원가입하기
           </Text>
         </TouchableOpacity>
