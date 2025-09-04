@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { router } from "expo-router";
 import { Text, View, TouchableOpacity, Alert } from "react-native";
 import { getKeyHashAndroid, initializeKakaoSDK } from "@react-native-kakao/core";
-import { useAuth } from "@/context/AuthContext";
 import { login as kakaoLogin } from "@react-native-kakao/user";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
@@ -22,6 +22,8 @@ export default function LoginScreen() {
       const result = await kakaoLogin();
       const kakaoAccessToken = result.accessToken;
       await login(kakaoAccessToken);
+      console.log("카카오 로그인 성공, 서버 토큰 발급 완료");
+      router.replace("/(onboarding)/allow-permission");
     } catch (error) {
       if (__DEV__) {
         console.error("카카오 로그인 실패:", error);

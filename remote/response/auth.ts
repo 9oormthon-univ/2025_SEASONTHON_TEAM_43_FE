@@ -1,3 +1,5 @@
+// remote/response/auth.ts
+
 export type AuthContextType = {
   login: (token: string) => Promise<void>;
   logout: () => void;
