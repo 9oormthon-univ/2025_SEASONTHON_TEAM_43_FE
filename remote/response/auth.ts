@@ -12,10 +12,10 @@ export type KakaoLoginRequest = {
 };
 
 export type KakaoLoginResponse = {
-  userEmail: string;
   accessToken: string;
-  userName: string;
-  userId: number;
+  userEmail?: string;
+  userName?: string;
+  userId?: number;
 };
 
 export type LogoutResponse = {

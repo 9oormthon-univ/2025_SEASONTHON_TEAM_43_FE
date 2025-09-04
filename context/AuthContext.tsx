@@ -21,8 +21,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async (accessToken: string) => {
     try {
       setLoading(true);
-      const body: KakaoLoginRequest = { accessToken };
-      const res: KakaoLoginResponse = await loginKakao(body);
+      // const body: KakaoLoginRequest = { accessToken };
+      const res: KakaoLoginResponse = await loginKakao(accessToken);
 
       console.log("서버 로그인 응답:", res);
 

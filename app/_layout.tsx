@@ -19,7 +19,9 @@ export default function RootLayout() {
     (async () => {
       try {
         // 1) 로그인 토큰 확인
-        const token = await SecureStore.getItemAsync("access_token");
+        const token = await SecureStore.getItemAsync("accessToken");
+        console.log("저장된 토큰:", token);
+
         // 2) 온보딩(약관 동의 등) 완료 여부 확인
         const onboardingDone = await AsyncStorage.getItem("onboarding_done");
 
