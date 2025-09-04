@@ -41,6 +41,7 @@
       "typedRoutes": true
     },
     "extra": {
+      "kakaoMapJsKey": "e454b11f70756bfbcee5cfcd091cf784",
       "router": {},
       "eas": {
         "projectId": "ed06a817-0ffe-4bbc-8ec0-c7a9c412b12f"
