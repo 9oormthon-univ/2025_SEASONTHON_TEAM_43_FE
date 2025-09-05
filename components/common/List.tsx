@@ -55,4 +55,3 @@ const List: React.FC<ListProps> = ({
 };
 
 export default List;
-

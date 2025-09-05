@@ -34,7 +34,7 @@ export default function DiaryScreen() {
           description="갓 구운 빵이 일품인 동네 빵집입니다."
           onPress={() => console.log("List 아이템이 눌렸습니다!")}
         />
-
+        
       </View>
     </SafeAreaView>
   );
