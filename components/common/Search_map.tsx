@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { View, TextInput, TouchableOpacity } from "react-native";
+import { View, TextInput, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 /* 
@@ -16,76 +16,43 @@ long : W(327) H(44) R(25) P(13 20 13 20 10)
 */
 
 type SearchBarProps = {
+  onPress: () => void;
 	variant?: 'short' | 'long';
 	placeholderText?: string;
-	onSearch: (text: string) => void;
 }
 
 
 export default function SearchBar({
+  onPress,
+  placeholderText = '원하는 빵집을 찾아보세요',
   variant = 'long',
-  placeholderText = "원하는 빵집을 찾아보세요",
-  onSearch,
 }: SearchBarProps) {
-  const [query, setQuery] = useState(''); // 입력된 검색어 상태
-  const [isFocused, setIsFocused] = useState(false); // 입력창 포커스 상태
-
-  // 검색어 초기화
-  const clearQuery = () => {
-    setQuery('');
-  };
-
-  // 검색을 실행하는 함수 (예: 엔터 키를 눌렀을 때)
-  const handleSearch = () => {
-    onSearch(query);
-    // 필요하다면 여기에 "빵집 검색중..." 상태로 변경하는 로직 추가
-  };
-
   const widthClass = variant === 'short' ? 'w-[271px]' : 'w-[327px]';
-  
-  // 입력 상태에 따른 안내 문구 색상을 결정
-  const placeholderColor = isFocused && !query ? '#787878' : '#222222';
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.8}
       className={`
-        flex-row items-center bg-white h-15 rounded-full px-5
+        flex-row items-center bg-white h-12 rounded-full px-5
         ${widthClass}
         border border-gray-200
       `}
       style={{
-        // iOS를 위한 그림자 설정
         shadowColor: '#222222',
         shadowOffset: {
           width: 0,
           height: 0,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 10,
-        
-        // Android를 위한 그림자 설정
-        elevation: 8,
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 5,
       }}
     >
       <Ionicons name="search" size={20} color="#787878" />
-
-      <TextInput
-        className="flex-1 ml-4 text-base text-gray"
-        placeholder={placeholderText}
-        placeholderTextColor={placeholderColor}
-        value={query}
-        onChangeText={setQuery}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        onSubmitEditing={handleSearch}
-        returnKeyType="search"
-      />
-
-      {query.length > 0 && (
-        <TouchableOpacity onPress={clearQuery}>
-          <Ionicons name="close-circle" size={20} color="#787878" />
-        </TouchableOpacity>
-      )}
-    </View>
+      <Text className="flex-1 ml-4 text-base text-gray-500">
+        {placeholderText}
+      </Text>
+    </TouchableOpacity>
   );
 }
