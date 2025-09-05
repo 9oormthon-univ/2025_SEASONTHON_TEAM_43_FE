@@ -11,7 +11,7 @@ export const AuthContext = createContext<AuthContextType>({
   login: async () => {},
   logout: () => {},
   loading: true,
-  isAuthReady: false
+  isAuthReady: false,
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -26,7 +26,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       console.log("서버 로그인 응답:", res);
 
-      await Promise.all([SecureStore.setItemAsync("accessToken", res.accessToken)]);
+      await Promise.all([
+        SecureStore.setItemAsync("accessToken", res.accessToken),
+      ]);
     } catch (err) {
       if (__DEV__) {
         console.error("로그인 실패:", err);
@@ -45,17 +47,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await Promise.all([
         SecureStore.deleteItemAsync("accessToken"),
         SecureStore.deleteItemAsync("refreshToken"),
-        AsyncStorage.removeItem("user")
+        AsyncStorage.removeItem("user"),
       ]);
     } catch (error) {
       if (__DEV__) {
         console.error("로그아웃 중 에러 발생:", error);
       }
       Alert.alert("로그아웃 실패", "다시 시도해주세요.");
+    } finally {
+      // 3) 로컬 스토리지 정리 (항상 수행)
+      await Promise.allSettled([
+        SecureStore.deleteItemAsync("accessToken"),
+        SecureStore.deleteItemAsync("refreshToken"),
+        AsyncStorage.removeItem("user"),
+      ]);
     }
   };
 
-  return <AuthContext.Provider value={{ login, logout, loading, isAuthReady }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ login, logout, loading, isAuthReady }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);

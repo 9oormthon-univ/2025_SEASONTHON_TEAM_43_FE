@@ -114,7 +114,7 @@ export default function AddInfoScreen() {
       </View>
 
       {/* 저장 버튼 */}
-      <View className="pt-5 px-6" style={{ paddingBottom: insets.bottom }}>
+      <View className="pt-5 px-6" style={{ paddingBottom: insets.bottom + 40 }}>
         <TouchableOpacity
           className={`px-20 py-3 rounded-lg ${
             canSubmit ? "bg-point-3" : "bg-gray-300"
