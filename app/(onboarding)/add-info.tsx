@@ -67,12 +67,12 @@ export default function AddInfoScreen() {
       <View className="flex-1 px-6">
         {/* 닉네임 입력 섹션 */}
         <View className="mb-9">
-          <Text className="body1 font-suit-bold font-bold text-point-3 pb-2">
+          <Text className="pb-2 font-suit-bold font-bold text-point-3 body1">
             닉네임
           </Text>
-          <View className="bg-grey-2 px-[10px] py-[5px] rounded-lg flex-row justify-between items-center">
+          <View className="flex-row items-center justify-between rounded-lg bg-grey-2 px-[10px] py-[5px]">
             <TextInput
-              className="flex-1 rounded-lg text-black font-suit-regular font-normal"
+              className="flex-1 rounded-lg font-suit-regular font-normal text-black"
               placeholder="닉네임을 입력해주세요"
               placeholderTextColor="#B1B1B1"
               value={nickname}
@@ -83,7 +83,7 @@ export default function AddInfoScreen() {
 
         {/* 관심지역 설정 섹션 */}
         <View className="mb-3">
-          <Text className="body1 font-suit-bold font-bold text-point-3 pb-3">
+          <Text className="pb-3 font-suit-bold font-bold text-point-3 body1">
             내 지역 찾기
           </Text>
           <SearchBox
@@ -99,7 +99,7 @@ export default function AddInfoScreen() {
 
         {/* 지도 섹션 */}
         <View className="flex-1 items-center justify-center">
-          <View className="bg-gray-700 overflow-hidden">
+          <View className="overflow-hidden bg-gray-700">
             <MapView
               latitude={coords.lat}
               longitude={coords.lng}
@@ -114,9 +114,9 @@ export default function AddInfoScreen() {
       </View>
 
       {/* 저장 버튼 */}
-      <View className="pt-5 px-6" style={{ paddingBottom: insets.bottom + 40 }}>
+      <View className="px-6 pt-5" style={{ paddingBottom: insets.bottom + 40 }}>
         <TouchableOpacity
-          className={`px-20 py-3 rounded-lg ${
+          className={`rounded-lg px-20 py-3 ${
             canSubmit ? "bg-point-3" : "bg-gray-300"
           }`}
           disabled={!canSubmit}
@@ -126,11 +126,11 @@ export default function AddInfoScreen() {
             // TODO: 저장 및 다음 화면 이동
             console.log("닉네임:", nickname);
             console.log("관심지역:", interestArea, coords);
-            router.push("/(tabs)");
+            router.push("/(tabs)/map");
           }}
         >
           <Text
-            className={`text-center body3 font-bold ${
+            className={`text-center font-bold body3 ${
               canSubmit ? "text-point-1" : "text-gray-500"
             }`}
           >
