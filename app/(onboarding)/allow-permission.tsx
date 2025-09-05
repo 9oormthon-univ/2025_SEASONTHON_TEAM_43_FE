@@ -3,19 +3,22 @@ import { useState } from "react";
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import AgreementItem from "../../components/allow-permission/AgreementItem";
 import { AGREEMENT_TERMS, AgreementKey } from "../../constants/terms";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function AllowPermissionScreen() {
+  const insets = useSafeAreaInsets();
+
   const [agreements, setAgreements] = useState({
     service: false,
     privacy: false,
     location: false,
-    marketing: false
+    marketing: false,
   });
 
   const toggleSwitch = (key: keyof typeof agreements) => {
     setAgreements((prev) => ({
       ...prev,
-      [key]: !prev[key]
+      [key]: !prev[key],
     }));
   };
 
@@ -67,23 +70,40 @@ export default function AllowPermissionScreen() {
       </ScrollView>
 
       {/* 하단 고정 영역 */}
-      <View className="bg-white px-4 pb-8 pt-4">
+      <View
+        className="bg-white px-4"
+        style={{ paddingBottom: insets.bottom + 40 }}
+      >
         <TouchableOpacity
-          className={`p-4 rounded-2xl ${
-            agreements.service && agreements.privacy && agreements.location ? "bg-gray-800" : "bg-gray-300"
+          className={`px-20 py-3 rounded-lg ${
+            agreements.service && agreements.privacy && agreements.location
+              ? "bg-point-3"
+              : "bg-gray-300"
           }`}
           onPress={() => {
             // 필수 동의 항목 3개가 모두 동의되었을 때만 다음 화면으로 이동
-            if (agreements.service && agreements.privacy && agreements.location) {
+            if (
+              agreements.service &&
+              agreements.privacy &&
+              agreements.location
+            ) {
               router.push("/(onboarding)/add-info");
             }
           }}
-          disabled={!(agreements.service && agreements.privacy && agreements.location)}
-          activeOpacity={agreements.service && agreements.privacy && agreements.location ? 0.7 : 1}
+          disabled={
+            !(agreements.service && agreements.privacy && agreements.location)
+          }
+          activeOpacity={
+            agreements.service && agreements.privacy && agreements.location
+              ? 0.7
+              : 1
+          }
         >
           <Text
-            className={`text-center text-lg font-bold ${
-              agreements.service && agreements.privacy && agreements.location ? "text-white" : "text-gray-500"
+            className={`text-center body3 font-bold ${
+              agreements.service && agreements.privacy && agreements.location
+                ? "text-point-1"
+                : "text-gray-500"
             }`}
           >
             다음

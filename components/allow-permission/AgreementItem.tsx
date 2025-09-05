@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Text, View, Pressable, TouchableOpacity, Animated, ScrollView } from "react-native";
+import {
+  Text,
+  Switch,
+  View,
+  Pressable,
+  TouchableOpacity,
+  Animated,
+  ScrollView,
+} from "react-native";
 import ScrollDownIcon from "../../assets/images/ic_scroll_down.svg";
 import ScrollUpIcon from "../../assets/images/ic_scroll_up.svg";
 
@@ -16,7 +24,7 @@ export default function AgreementItem({
   value,
   onValueChange,
   isRequired = false,
-  content = ""
+  content = "",
 }: AgreementItemProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [animation] = useState(new Animated.Value(0));
@@ -26,13 +34,13 @@ export default function AgreementItem({
     Animated.timing(animation, {
       toValue: isExpanded ? 0 : 1,
       duration: 300,
-      useNativeDriver: false
+      useNativeDriver: false,
     }).start();
   };
 
   const maxHeight = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 200]
+    outputRange: [0, 200],
   });
 
   return (
@@ -41,14 +49,28 @@ export default function AgreementItem({
         {/* 헤더 부분 */}
         <View>
           <View className="flex-row items-center justify-between">
-            <TouchableOpacity onPress={toggleExpanded} className="flex-1 mr-4" activeOpacity={0.7}>
+            <TouchableOpacity
+              onPress={toggleExpanded}
+              className="flex-1 mr-4"
+              activeOpacity={0.7}
+            >
               <Text className="body4 text-black">
                 {title}
-                {isRequired && <Text className="text-red-500 font-bold"> *</Text>}
+                {isRequired && (
+                  <Text className="text-red-500 font-bold"> *</Text>
+                )}
               </Text>
             </TouchableOpacity>
 
-            <Pressable onPress={toggleExpanded}>{isExpanded ? <ScrollUpIcon /> : <ScrollDownIcon />}</Pressable>
+            <Switch
+              value={value}
+              onValueChange={onValueChange}
+              className="transform scale-1"
+            />
+
+            <Pressable onPress={toggleExpanded}>
+              {isExpanded ? <ScrollUpIcon /> : <ScrollDownIcon />}
+            </Pressable>
           </View>
         </View>
 
@@ -57,7 +79,11 @@ export default function AgreementItem({
           <Animated.View style={{ maxHeight }}>
             <View className="py-3 pb-3">
               <View>
-                <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} className="max-h-48">
+                <ScrollView
+                  showsVerticalScrollIndicator={false}
+                  nestedScrollEnabled={true}
+                  className="max-h-48"
+                >
                   <Text className="caption1 text-grey-4">{content}</Text>
                 </ScrollView>
               </View>
