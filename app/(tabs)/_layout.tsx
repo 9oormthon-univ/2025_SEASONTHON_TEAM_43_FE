@@ -36,10 +36,16 @@ export default function TabLayout() {
         headerShown: useClientOnlyValue(false, true),
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 90,
+          position: 'absolute',
+          left: 20,
+          right: 20,
+          height: 80,           
+          paddingTop: 10,        
           backgroundColor: '#FFFFFF',
-          //borderTopWidth: 1,
-          borderTopColor: '#E5E7EB',
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
         },
       }}
     >

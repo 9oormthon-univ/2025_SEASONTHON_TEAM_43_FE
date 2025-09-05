@@ -49,7 +49,7 @@ export default function SearchBar({
   return (
     <View
       className={`
-        flex-row items-center bg-white h-11 rounded-full px-5
+        flex-row items-center bg-white h-15 rounded-full px-5
         ${widthClass}
         border border-gray-200
       `}
@@ -70,7 +70,7 @@ export default function SearchBar({
       <Ionicons name="search" size={20} color="#787878" />
 
       <TextInput
-        className="flex-1 ml-3 text-base text-black"
+        className="flex-1 ml-4 text-base text-gray"
         placeholder={placeholderText}
         placeholderTextColor={placeholderColor}
         value={query}

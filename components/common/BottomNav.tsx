@@ -1,39 +1,24 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Tabs } from 'expo-router';
 import { Image, View, Text } from 'react-native';
-
-// 각 탭의 아이콘과 라벨을 커스텀하는 컴포넌트
-const TabBarIcon = ({ focused, activeIcon, inactiveIcon, label }) => {
-  const iconSource = focused ? activeIcon : inactiveIcon;
-  const textColor = focused ? '#D97706' : '#9CA3AF'; // 활성: 주황색, 비활성: 회색
-
-  return (
-    <View style={{ alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-      <Image
-        source={iconSource}
-        style={{ width: 24, height: 24, resizeMode: 'contain' }}
-      />
-      <Text style={{ color: textColor, fontSize: 12 }}>{label}</Text>
-    </View>
-  );
-};
+import TabBarIcon from '@/components/navigation/TabBarIcon';
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false, // 모든 탭 화면의 헤더(상단 제목)를 숨깁니다.
-        tabBarShowLabel: false, // 기본 라벨을 숨기고 커스텀 라벨을 사용합니다.
+        headerShown: false,
+        tabBarShowLabel: false,
         tabBarStyle: {
-          height: 90, // 탭 바의 높이
-          backgroundColor: '#FFFFFF', // 탭 바 배경색
+          height: 90,
+          backgroundColor: '#FFFFFF',
           borderTopWidth: 1,
           borderTopColor: '#E5E7EB',
         },
       }}
     >
       <Tabs.Screen
-        name="map" // `app/(tabs)/map.tsx` 파일과 연결됩니다.
+        name="map"
         options={{
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
@@ -46,7 +31,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="course" // `app/(tabs)/course.tsx` 파일과 연결됩니다.
+        name="course"
         options={{
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
@@ -59,7 +44,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="diary" // `app/(tabs)/diary.tsx` 파일과 연결됩니다.
+        name="diary"
         options={{
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
