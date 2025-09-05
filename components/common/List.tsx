@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Image, Text, TouchableOpacity, ImageSourcePropType } from "react-native";
+import React from 'react';
+import { View, Image, Text, TouchableOpacity, ImageSourcePropType } from 'react-native';
 // List 컴포넌트 W(375) H(94) P(12 24 12 24 G:10)에 왼쪽 빵집 사진은 W(70) H(70) 빵집 이름은 W(241) H(22), 사진과 빵집 이름 사이 거리는 16, 빵집 이름 밑에 빵집 설명도 있어
 
 // 1. 컴포넌트가 받을 props의 타입을 정의합니다.
@@ -13,7 +13,12 @@ interface ListProps {
 /**
  * 빵집 정보를 보여주는 재사용 가능한 리스트 아이템 컴포넌트
  */
-const List: React.FC<ListProps> = ({ imageSource, name, description, onPress }) => {
+const List: React.FC<ListProps> = ({
+  imageSource,
+  name,
+  description,
+  onPress,
+}) => {
   return (
     // TouchableOpacity로 감싸서 아이템 전체를 버튼처럼 누를 수 있게 합니다.
     <TouchableOpacity

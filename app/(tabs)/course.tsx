@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View } from 'react-native';
 
 /**
  * '빵 지도' 탭을 눌렀을 때 표시되는 기본 화면입니다.
