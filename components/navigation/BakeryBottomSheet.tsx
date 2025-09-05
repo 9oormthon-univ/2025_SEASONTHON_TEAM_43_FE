@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
-import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { ScrollView } from 'react-native';
 
 export type Bakery = {
   id: string;
@@ -48,7 +48,7 @@ const BakeryBottomSheet: React.FC<BakeryBottomSheetProps> = ({ bakeries, onBaker
     : 0;
   return (
     <View className="flex-1">
-      <BottomSheetScrollView
+      <ScrollView
         className="bg-white"
         contentContainerClassName="pt-4 pb-24" 
       >
@@ -82,7 +82,7 @@ const BakeryBottomSheet: React.FC<BakeryBottomSheetProps> = ({ bakeries, onBaker
             </View>
           ))}
         </View>
-      </BottomSheetScrollView>
+      </ScrollView>
 
       <TouchableOpacity
         onPress={handleCreateCoursePress}
