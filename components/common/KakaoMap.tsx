@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { useMemo, useRef, useState } from "react";
-import { WebView, WebViewMessageEvent } from "react-native-webview";
-import Constants from "expo-constants";
-import { Platform } from "react-native";
+import React, { useEffect } from 'react';
+import { useMemo, useRef, useState} from 'react';
+import { WebView, WebViewMessageEvent } from 'react-native-webview';
+import Constants from 'expo-constants';
+import { Platform } from 'react-native';
 
 // 컴포넌트가 받을 props 타입 정의
 interface KakaoMapProps {
@@ -20,10 +20,15 @@ interface KakaoMapProps {
   onMarkerSelect?: (markerId: string) => void; // 마커 선택 시 호출될 함수
 }
 
-const KakaoMap: React.FC<KakaoMapProps> = ({ center, markers = [], zoomLevel = 4, onMarkerSelect }) => {
+const KakaoMap: React.FC<KakaoMapProps> = ({
+  center,
+  markers = [],
+  zoomLevel = 4,
+  onMarkerSelect,
+}) => {
   const apiKey = Constants.expoConfig?.extra?.kakaoMapJsKey;
   const webviewRef = useRef<WebView>(null);
-  console.log(apiKey);
+  console.log(apiKey)
   useEffect(() => {
     const centerScript = `map.setCenter(new kakao.maps.LatLng(${center.latitude}, ${center.longitude}));`;
     webviewRef.current?.injectJavaScript(centerScript);
@@ -34,20 +39,19 @@ const KakaoMap: React.FC<KakaoMapProps> = ({ center, markers = [], zoomLevel = 4
     const markerScript = `updateMarkers(${markersJson});`;
     webviewRef.current?.injectJavaScript(markerScript);
   }, [markers]);
-
+  
   const handleMessage = (event: WebViewMessageEvent) => {
     try {
       const message = JSON.parse(event.nativeEvent.data);
-      if (message.type === "marker_select" && onMarkerSelect) {
+      if (message.type === 'marker_select' && onMarkerSelect) {
         onMarkerSelect(message.payload.id);
       }
     } catch (e) {
-      console.error("Error parsing message from WebView", e);
+      console.error('Error parsing message from WebView', e);
     }
   };
 
-  const html = useMemo(
-    () => `
+  const html = useMemo(() => `
     <html>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -88,14 +92,12 @@ const KakaoMap: React.FC<KakaoMapProps> = ({ center, markers = [], zoomLevel = 4
         </script>
       </body>
     </html>
-  `,
-    [apiKey, zoomLevel]
-  );
+  `, [apiKey, zoomLevel]);
 
   return (
     <WebView
       ref={webviewRef}
-      originWhitelist={["*"]}
+      originWhitelist={['*']}
       source={{ html }}
       // ✅ CHANGED: style을 className으로 변경
       className="flex-1"

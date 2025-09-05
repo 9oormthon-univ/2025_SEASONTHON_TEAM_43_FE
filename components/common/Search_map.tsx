@@ -17,16 +17,17 @@ long : W(327) H(44) R(25) P(13 20 13 20 10)
 
 type SearchBarProps = {
   onPress: () => void;
-  variant?: "short" | "long";
-  placeholderText?: string;
-};
+	variant?: 'short' | 'long';
+	placeholderText?: string;
+}
+
 
 export default function SearchBar({
   onPress,
-  placeholderText = "원하는 빵집을 찾아보세요",
-  variant = "long"
+  placeholderText = '원하는 빵집을 찾아보세요',
+  variant = 'long',
 }: SearchBarProps) {
-  const widthClass = variant === "short" ? "w-[271px]" : "w-[327px]";
+  const widthClass = variant === 'short' ? 'w-[271px]' : 'w-[327px]';
 
   return (
     <TouchableOpacity
@@ -38,18 +39,20 @@ export default function SearchBar({
         border border-gray-200
       `}
       style={{
-        shadowColor: "#222222",
+        shadowColor: '#222222',
         shadowOffset: {
           width: 0,
-          height: 0
+          height: 0,
         },
         shadowOpacity: 0.1,
         shadowRadius: 5,
-        elevation: 5
+        elevation: 5,
       }}
     >
       <Ionicons name="search" size={20} color="#787878" />
-      <Text className="flex-1 ml-4 text-base text-gray-500">{placeholderText}</Text>
+      <Text className="flex-1 ml-4 text-base text-gray-500">
+        {placeholderText}
+      </Text>
     </TouchableOpacity>
   );
 }
