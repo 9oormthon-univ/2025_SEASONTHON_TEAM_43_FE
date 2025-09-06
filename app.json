@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "crumb",
+    "name": "빵생빵사",
     "slug": "crumb",
     "owner": "crumbsbbangsaeng",
     "version": "1.0.0",
@@ -10,15 +10,16 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/appIcon.png",
+      "image": "./assets/images/logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffd796"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.seoyeon241.crumb",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDisplayName": "빵생빵사"
       }
     },
     "android": {
