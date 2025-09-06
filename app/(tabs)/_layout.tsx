@@ -10,6 +10,8 @@ import MakerActive from "../../assets/icons/maker_active.svg";
 import MakerInactive from "../../assets/icons/maker_inactive.svg";
 import DiaryActive from "../../assets/icons/diary_active.svg";
 import DiaryInactive from "../../assets/icons/diary_inactive.svg";
+import ProfileActive from "../../assets/icons/profile_active.svg";
+import ProfileInActive from "../../assets/icons/profile_inactive.svg";
 
 // CustomTabBarIcon 컴포넌트를 SVG를 받도록 수정합니다.
 const CustomTabBarIcon = ({
@@ -79,7 +81,7 @@ export default function TabLayout() {
               focused={focused}
               ActiveIcon={MakerActive}
               InactiveIcon={MakerInactive}
-              label="빵코스"
+              label="빵발견"
             />
           ),
         }}
@@ -91,9 +93,9 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <CustomTabBarIcon
               focused={focused}
-              ActiveIcon={DiaryActive}
-              InactiveIcon={DiaryInactive}
-              label="빵일기"
+              ActiveIcon={ProfileActive}
+              InactiveIcon={ProfileInActive}
+              label="프로필"
             />
           ),
         }}
