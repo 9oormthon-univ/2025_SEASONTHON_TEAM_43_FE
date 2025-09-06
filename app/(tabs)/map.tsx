@@ -78,7 +78,7 @@ export default function MapScreen() {
         lat: coords.latitude,
         lng: coords.longitude,
         radius: "500", // 선택으로
-        size: "5", // 선택으로
+        size: "15", // 선택으로
       });
 
       // MapListItem[] -> Bakery[] 매핑
