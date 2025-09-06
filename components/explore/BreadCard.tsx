@@ -1,6 +1,12 @@
 // components/BreadCard.tsx
 import React from "react";
-import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
+import {
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+} from "react-native";
 import { ImageSourcePropType } from "react-native";
 
 interface BreadCardProps {
@@ -11,6 +17,8 @@ interface BreadCardProps {
   onPress: () => void;
 }
 
+const { width } = Dimensions.get("window");
+
 export default function BreadCard({
   image,
   name,
@@ -19,23 +27,42 @@ export default function BreadCard({
   onPress,
 }: BreadCardProps) {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View className="mb-4 h-[218px] w-full overflow-hidden rounded-xl">
+    <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
+      <View
+        className="mb-4 overflow-hidden rounded-xl"
+        style={{
+          width: width - 48, // ExploreScreen에서 padding px-6 줬으니까 좌우 합쳐서 48 빼줌
+          aspectRatio: 16 / 9, // 카드 비율 고정
+        }}
+      >
         <ImageBackground
           source={image}
           resizeMode="cover"
           className="flex-1 justify-end"
+          imageStyle={{ borderRadius: 16 }}
         >
           {/* 어두운 오버레이 */}
-          <View className="bg-black/40 px-4 py-3">
+          <View className="rounded-b-xl bg-black/40 px-4 py-3">
             <View className="mb-1 flex-row items-center">
-              <Text className="font-suit-bold text-xl text-white">{name}</Text>
-              <Text className="ml-2 text-[11px] text-white">|</Text>
-              <Text className="ml-2 text-sm text-white">{address}</Text>
+              <Text
+                className="flex-shrink font-suit-bold text-base text-white"
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {name}
+              </Text>
+              <Text className="mx-2 text-white">|</Text>
+              <Text
+                className="flex-1 text-sm text-white"
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {address}
+              </Text>
             </View>
             <Text
-              className="text-white caption1"
-              numberOfLines={1} // 말줄임표
+              className="text-xs text-white"
+              numberOfLines={1} // 1줄로 말줄임
               ellipsizeMode="tail"
             >
               {intro}

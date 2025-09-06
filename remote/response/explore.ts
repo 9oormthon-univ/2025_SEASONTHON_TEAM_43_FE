@@ -14,8 +14,4 @@ export type ExploreItem = {
   distance: number;
 };
 
-export type ExploreResponse = {
-  success: boolean;
-  code: string;
-  data: ExploreItem[];
-};
+export type ExploreResponse = ExploreItem[];

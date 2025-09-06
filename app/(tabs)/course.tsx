@@ -46,11 +46,11 @@ export default function ExploreScreen() {
         lng: 127.3845475,
       });
 
-      if (!res.success) {
-        throw new Error(`API 실패(code=${res.code})`);
-      }
+      // if (!res.success) {
+      //   throw new Error(`API 실패(code=${res.code})`);
+      // }
 
-      setItems(res.data);
+      setItems(res);
     } catch (e: any) {
       setErrorMsg(e?.message ?? "알 수 없는 오류가 발생했습니다.");
     } finally {

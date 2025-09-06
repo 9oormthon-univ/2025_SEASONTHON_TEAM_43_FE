@@ -1,6 +1,6 @@
 // remote/request/explore.ts
+import axios from "axios";
 import { ExploreRequest, ExploreResponse } from "../response/explore";
-import { axiosInstance } from "../axios";
 import type { AxiosRequestConfig } from "axios";
 
 export const getRecommendList = async (
@@ -8,14 +8,13 @@ export const getRecommendList = async (
   config?: AxiosRequestConfig,
 ): Promise<ExploreResponse> => {
   try {
-    const { data } = await axiosInstance.get<ExploreResponse>(
-      "/api/recommend/bakeries",
-      {
-        // GET은 body가 아니라 params!
-        params,
-        ...config,
-      },
-    );
+    // 환경변수에서 전체 URL 가져오기
+    const baseUrl = process.env.EXPO_PUBLIC_FASTAPI_BASE_URL;
+
+    const { data } = await axios.get<ExploreResponse>(baseUrl!, {
+      params, // lat, lng 자동 쿼리스트링 처리
+      ...config,
+    });
 
     console.log(data);
     return data;
