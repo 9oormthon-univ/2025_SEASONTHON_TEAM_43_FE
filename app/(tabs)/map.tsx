@@ -33,6 +33,9 @@ import BakeryDetailView from "@/app/detail_webview_[number]";
 import { getMapList } from "@/remote/request/maplist";
 import type { MapListItem } from "@/remote/response/maplist";
 
+//검색 api 
+import { searchBakeries } from "@/remote/request/search";
+import type { SearchResponse, BakeryItem } from "@/remote/response/search";
 const PLACEHOLDER_IMG = require("../../assets/images/bread.png");
 
 export default function MapScreen() {
@@ -96,6 +99,41 @@ export default function MapScreen() {
       setBakeries(mapped);
     } catch (e: any) {
       setErrorMsg(e?.message ?? "내 주변 빵집을 불러오지 못했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+    //키워드 검색 api 호출 함수
+    const searchByKeyword = useCallback(async (query: string) => {
+      setLoading(true);
+      setErrorMsg(null);
+      try {
+        const { coords } = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+        });
+
+        setMapCenter({ latitude: coords.latitude, longitude: coords.longitude });
+    //searchBakeries Api 호출
+        const response = await searchBakeries({
+        query: query,
+        lat: coords.latitude,
+        lng: coords.longitude,
+      });
+    //응답 데이터 -> bakery 타입으로 mapping
+     const mapped: Bakery[] = (response.data ?? []).map((it: BakeryItem) => ({
+        description: "",
+        id: String(it.placeId),
+        name: it.name,
+        address: it.address,
+        image: PLACEHOLDER_IMG,
+        latitude: it.lat,
+        longitude: it.lng,
+        kakaoId: String(it.placeId),
+      }));
+      setBakeries(mapped);
+      Alert.alert("검색 완료!", `"${query}"(으)로 빵집을 검색했습니다.`);
+    } catch (e: any) {
+      setErrorMsg(e?.message ?? "검색 결과를 불러오지 못했습니다.");
     } finally {
       setLoading(false);
     }
@@ -203,6 +241,9 @@ export default function MapScreen() {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       });
+      
+      //내 위치 버튼 클릭 -> 주변 빵집 다시 로드
+      await loadNearbyBakeries();
 
       Alert.alert("내 위치로 이동!", "지도를 현재 위치로 이동했습니다.");
     } catch (error) {
@@ -222,6 +263,7 @@ export default function MapScreen() {
     console.log("실제 검색 수행:", text);
     setCurrentSearchQuery(text);
     Alert.alert("검색 완료!", `"${text}"(으)로 빵집을 검색했습니다.`);
+    searchByKeyword(text);
   };
 
   // ✅ 마커는 API로 받은 bakeries 기준
@@ -321,8 +363,8 @@ export default function MapScreen() {
             <View className="flex-1 items-center justify-center px-6">
               <Text className="mb-3 text-center text-gray-600">{errorMsg}</Text>
               <TouchableOpacity
-                // loadNearbyBakeries 함수가 정의되어 있지 않아 주석 처리
-                // onPress={loadNearbyBakeries}
+                // loadNearbyBakeries 함수가 정의되어 있지 않아 주석 처리 -> 함수 정의하여 주석 삭제
+                onPress={loadNearbyBakeries}
                 className="rounded-full bg-orange-500 px-5 py-3"
               >
                 <Text className="text-base font-bold text-white">
