@@ -1,0 +1,88 @@
+// app.config.ts
+import { ConfigContext, ExpoConfig } from "expo/config";
+
+export default ({ config }: ConfigContext): ExpoConfig => ({
+  // 기존 config가 있으면 병합(필수는 아님)
+  ...config,
+
+  name: "빵생빵사",
+  slug: "crumb",
+  owner: "crumbsbbangsaeng",
+  version: "1.0.0",
+  orientation: "portrait",
+  icon: "./assets/images/appIcon.png",
+  scheme: "crumb",
+  userInterfaceStyle: "automatic",
+  newArchEnabled: true,
+
+  splash: {
+    image: "./assets/images/logo.png",
+    resizeMode: "contain",
+    backgroundColor: "#ffd796",
+  },
+
+  ios: {
+    supportsTablet: true,
+    bundleIdentifier: "com.seoyeon241.crumb",
+    infoPlist: {
+      ITSAppUsesNonExemptEncryption: false,
+      CFBundleDisplayName: "빵생빵사",
+    },
+  },
+
+  android: {
+    adaptiveIcon: {
+      foregroundImage: "./assets/images/appIcon.png",
+      backgroundColor: "#ffffff",
+    },
+    edgeToEdgeEnabled: true,
+    package: "com.seoyeon241.crumb",
+  },
+
+  web: {
+    bundler: "metro",
+    output: "static",
+    favicon: "./assets/images/favicon.png",
+  },
+
+  plugins: [
+    "expo-router",
+    "expo-secure-store",
+    [
+      "expo-build-properties",
+      {
+        android: {
+          extraMavenRepos: [
+            "https://devrepo.kakao.com/nexus/content/groups/public/",
+          ],
+        },
+      },
+    ],
+    [
+      "@react-native-kakao/core",
+      {
+        nativeAppKey: "083512cd4066153c92c1f28bfed50a2b",
+        android: {
+          authCodeHandlerActivity: true,
+        },
+        ios: {
+          handleKakaoOpenUrl: true,
+        },
+      },
+    ],
+  ],
+
+  experiments: {
+    typedRoutes: true,
+  },
+
+  extra: {
+    kakaoMapJsKey: "e454b11f70756bfbcee5cfcd091cf784",
+    router: {},
+    eas: {
+      projectId: "ed06a817-0ffe-4bbc-8ec0-c7a9c412b12f",
+    },
+    // 예: 환경변수도 여기로 주입 가능 (필요 시 주석 해제)
+    // apiBaseUrl: process.env.EXPO_PUBLIC_API_BASE_URL,
+  },
+});
