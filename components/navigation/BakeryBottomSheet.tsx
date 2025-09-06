@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,22 @@ import {
 import { ScrollView, ActivityIndicator } from "react-native";
 
 const PLACEHOLDER_IMG = require("@/assets/images/bread.png");
+
+const breadImages: ImageSourcePropType[] = [
+  require("@/assets/images/bread1.png"),
+  require("@/assets/images/bread2.png"),
+  require("@/assets/images/bread3.png"),
+  require("@/assets/images/bread4.png"),
+  require("@/assets/images/bread5.png"),
+  require("@/assets/images/bread6.png"),
+  require("@/assets/images/bread7.png"),
+  require("@/assets/images/bread8.png"),
+  require("@/assets/images/bread9.png"),
+  require("@/assets/images/bread10.png"),
+];
+
+const pickRandomBreadImage = () =>
+  breadImages[Math.floor(Math.random() * breadImages.length)];
 
 export type Bakery = {
   description: string;
@@ -67,6 +83,17 @@ const BakeryBottomSheet: React.FC<BakeryBottomSheetProps> = ({
   const handleCreateCoursePress = () => {
     alert("코스 만들기 화면으로 이동합니다!");
   };
+
+  const imageMapRef = useRef<Record<string, ImageSourcePropType>>({});
+
+  useEffect(() => {
+    bakeries.forEach((b) => {
+      if (!imageMapRef.current[b.id]) {
+        imageMapRef.current[b.id] = pickRandomBreadImage();
+      }
+    });
+  }, [bakeries]);
+
   const CARD_FULL_HEIGHT = 104; // 각 아이템의 전체 높이 (패딩 포함)
   const CARD_VISIBLE_HEIGHT = 80; // 겹쳤을 때 보이는 아래 아이템의 높이
 
@@ -136,24 +163,31 @@ const BakeryBottomSheet: React.FC<BakeryBottomSheetProps> = ({
             style={{ height: listContainerHeight }}
             className="relative px-4"
           >
-            {bakeries.map((bakery, index) => (
-              <View
-                key={bakery.id}
-                style={{
-                  position: "absolute",
-                  top: index * CARD_VISIBLE_HEIGHT,
-                  left: 16,
-                  right: 16,
-                }}
-              >
-                <BakeryListItem
-                  name={bakery.name}
-                  address={bakery.address}
-                  image={bakery.image ?? PLACEHOLDER_IMG}
-                  onSelect={() => onBakerySelect(bakery)}
-                />
-              </View>
-            ))}
+            {bakeries.map((bakery, index) => {
+              // 서버 이미지가 있으면 우선 사용, 없으면 랜덤 매핑 이미지, 그래도 없으면 플레이스홀더
+              const img =
+                // bakery.image ??
+                imageMapRef.current[bakery.id] ?? PLACEHOLDER_IMG;
+
+              return (
+                <View
+                  key={bakery.id}
+                  style={{
+                    position: "absolute",
+                    top: index * CARD_VISIBLE_HEIGHT,
+                    left: 16,
+                    right: 16,
+                  }}
+                >
+                  <BakeryListItem
+                    name={bakery.name}
+                    address={bakery.address}
+                    image={img}
+                    onSelect={() => onBakerySelect(bakery)}
+                  />
+                </View>
+              );
+            })}
           </View>
         )}
       </ScrollView>

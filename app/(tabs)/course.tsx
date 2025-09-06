@@ -15,8 +15,26 @@ import BreadCard from "@/components/explore/BreadCard";
 import { getRecommendList } from "@/remote/request/explore";
 import type { ExploreItem } from "@/remote/response/explore";
 
+const breadImages = [
+  require("../../assets/images/bread1.png"),
+  require("../../assets/images/bread2.png"),
+  require("../../assets/images/bread3.png"),
+  require("../../assets/images/bread4.png"),
+  require("../../assets/images/bread5.png"),
+  require("../../assets/images/bread6.png"),
+  require("../../assets/images/bread7.png"),
+  require("../../assets/images/bread8.png"),
+  require("../../assets/images/bread9.png"),
+  require("../../assets/images/bread10.png"),
+];
+
 export default function ExploreScreen() {
   const insets = useSafeAreaInsets();
+
+  const getRandomBreadImage = () => {
+    const index = Math.floor(Math.random() * breadImages.length);
+    return breadImages[index];
+  };
 
   const [items, setItems] = useState<ExploreItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -121,7 +139,7 @@ export default function ExploreScreen() {
           {items.map((item) => (
             <BreadCard
               key={item.id}
-              image={require("../../assets/images/bread.png")}
+              image={getRandomBreadImage()}
               name={item.name}
               address={`${item.address} · ${formatDistance(item.distance)}`}
               intro={item.intro}
