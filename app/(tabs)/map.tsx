@@ -177,7 +177,7 @@ export default function MapScreen() {
           <TouchableOpacity onPress={onBack} className="mr-3 p-1">
             <Ionicons name="arrow-back" size={24} color="#222222" />
           </TouchableOpacity>
-          <View className="h-10 flex-1 flex-row items-center rounded-full bg-gray-100 px-3">
+          <View className="h-17 flex-1 flex-row items-center rounded-full bg-gray-100 px-3">
             <Ionicons name="search" size={20} color="#787878" />
             <TextInput
               className="ml-2 flex-1 text-base text-gray-800"
@@ -203,11 +203,11 @@ export default function MapScreen() {
         <ScrollView className="flex-1 px-4 py-2">
           {searchHistory.length > 0 && (
             <View className="mb-4">
-              <Text className="mb-2 text-lg font-bold">최근 검색어</Text>
+              <Text className="mb-2 text-lg font-bold">최근 검색 결과</Text>
               {searchHistory.map((item, index) => (
                 <TouchableOpacity
                   key={index}
-                  className="flex-row items-center justify-between border-b border-gray-100 py-2"
+                  className="flex-row items-center justify-between border-b border-gray-100 py-4"
                   onPress={() => {
                     setSearchText(item);
                     onSearch(item);
