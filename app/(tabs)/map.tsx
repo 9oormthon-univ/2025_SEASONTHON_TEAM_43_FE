@@ -28,7 +28,7 @@ import BakeryBottomSheet, {
 } from "@/components/navigation/BakeryBottomSheet";
 import KakaoMap from "@/components/common/KakaoMap";
 import MyLocationButton from "@/components/common/MyLocationButton";
-import BakeryDetailView from "@/components/detail/Detail_WebView";
+import BakeryDetailView from "@/app/detail_webview_[number]";
 
 import { getMapList } from "@/remote/request/maplist";
 import type { MapListItem } from "@/remote/response/maplist";
