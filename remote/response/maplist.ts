@@ -2,8 +2,8 @@
 export type MapListRequest = {
   lat: number;
   lng: number;
-  radius?: string; // or number (백엔드 계약에 맞추세요)
-  size?: string; // or number
+  radius?: string;
+  size?: string;
 };
 
 // 단일 아이템

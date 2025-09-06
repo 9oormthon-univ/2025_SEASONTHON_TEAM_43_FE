@@ -1,22 +1,26 @@
+// remote/request/explore.ts
 import { ExploreRequest, ExploreResponse } from "../response/explore";
 import { axiosInstance } from "../axios";
 import type { AxiosRequestConfig } from "axios";
 
 export const getRecommendList = async (
-  body: ExploreRequest,
+  params: ExploreRequest,
   config?: AxiosRequestConfig,
 ): Promise<ExploreResponse> => {
   try {
-    const { data } = await axiosInstance.post<ExploreResponse>(
+    const { data } = await axiosInstance.get<ExploreResponse>(
       "/api/recommend/bakeries",
-      body,
-      config,
+      {
+        // GET은 body가 아니라 params!
+        params,
+        ...config,
+      },
     );
     return data;
   } catch (e: any) {
     console.log("url:", e?.config?.url, "method:", e?.config?.method);
     console.log("headers:", e?.config?.headers);
-    console.log("sent data:", e?.config?.data);
+    console.log("sent params:", e?.config?.params);
     console.log("status:", e?.response?.status);
     console.log("resp data:", e?.response?.data);
     throw e;
