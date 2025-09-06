@@ -1,8 +1,14 @@
 // remote/request/auth.ts
-import { KakaoLoginRequest, KakaoLoginResponse, LogoutResponse } from "../response/auth";
+import {
+  KakaoLoginRequest,
+  KakaoLoginResponse,
+  LogoutResponse,
+} from "../response/auth";
 import { axiosInstance } from "../axios";
 
-export const loginKakao = async (kakaoAccessToken: string): Promise<KakaoLoginResponse> => {
+export const loginKakao = async (
+  kakaoAccessToken: string,
+): Promise<KakaoLoginResponse> => {
   try {
     const { data } = await axiosInstance.post(
       "/api/kakao/login-bread",
@@ -10,9 +16,9 @@ export const loginKakao = async (kakaoAccessToken: string): Promise<KakaoLoginRe
       {
         headers: {
           Authorization: `Bearer ${kakaoAccessToken}`,
-          skipAuth: true
-        }
-      }
+          skipAuth: true,
+        },
+      },
     );
     return data;
   } catch (e: any) {
@@ -25,7 +31,18 @@ export const loginKakao = async (kakaoAccessToken: string): Promise<KakaoLoginRe
   }
 };
 
-export const logout = async (): Promise<LogoutResponse> => {
-  const { data } = await axiosInstance.post("/api/kakao/logout");
+export const logout = async (
+  kakaoAccessToken: string,
+): Promise<LogoutResponse> => {
+  const { data } = await axiosInstance.post(
+    "/api/kakao/logout",
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${kakaoAccessToken}`,
+        skipAuth: true,
+      },
+    },
+  );
   return data;
 };
