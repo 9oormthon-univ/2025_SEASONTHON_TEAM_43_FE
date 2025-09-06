@@ -15,31 +15,11 @@ pluginManagement {
     "../android/expo-gradle-plugin"
   ).absolutePath
   includeBuild(expoPluginsPath)
-
-  repositories {
-    google()
-    mavenCentral()
-    maven { url 'https://www.jitpack.io' }
-    maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' } // ⬅ 추가
-  }
 }
 
 plugins {
   id("com.facebook.react.settings")
   id("expo-autolinking-settings")
-}
-
-dependencyResolutionManagement {
-  // 기존: FAIL_ON_PROJECT_REPOS or PREFER_SETTINGS 로 되어 있었다면 ↓ 이렇게 변경
-  repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
-
-  repositories {
-    google()
-    mavenCentral()
-    maven { url 'https://www.jitpack.io' }
-    maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
-    // ⚠ 여기에는 mavenLocal() 넣지 마세요
-  }
 }
 
 extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
