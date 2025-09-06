@@ -18,8 +18,11 @@ import {
 } from "@react-native-kakao/core";
 import { login as kakaoLogin } from "@react-native-kakao/user";
 import { useAuth } from "@/context/AuthContext";
+import { LinearGradient } from "expo-linear-gradient";
 
 const KAKAO_BTN = require("@/assets/images/kakao_login_large_wide.png");
+const AppLogo = require("@/assets/images/logo.png");
+const AppCharacter = require("@/assets/images/app_character.png");
 
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
@@ -63,35 +66,48 @@ export default function LoginScreen() {
   };
 
   return (
-    <View
-      className="flex-1 items-center justify-center p-4"
+    <LinearGradient
+      // 그라데이션 색상 배열
+      colors={["#FFD796", "#FFEDCF"]}
+      // 시작/끝 위치 (x, y는 0~1 사이 비율)
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      className="flex-1 items-center justify-center"
       style={{ paddingTop: insets.top }}
     >
-      <Text className="mb-4 text-2xl display1">로고</Text>
-      <Text className="mb-4 text-2xl text-point-4 display1">로그인 화면</Text>
-
-      {/* 카카오 공식 이미지 버튼 */}
-      <TouchableOpacity
-        onPress={handleLogin}
-        disabled={loading}
-        activeOpacity={0.85}
-        accessibilityRole="button"
-        accessibilityLabel="카카오로 로그인"
-        className="w-full overflow-hidden rounded-[12px]"
-        style={{ opacity: loading ? 0.6 : 1 }}
+      <View
+        className="flex-1 items-center justify-center p-4"
+        style={{ paddingTop: insets.top }}
       >
+        <Image source={AppLogo} className="h-[115px] w-[300px]" />
         <Image
-          source={KAKAO_BTN}
-          // 폭 100% + 비율 유지 (세로 크기는 비율로 자동 계산)
-          style={{ width: "100%", height: undefined, aspectRatio: btnRatio }}
-          resizeMode="contain"
+          source={AppCharacter}
+          className="mb-[120px] h-[300px] w-[375px]"
         />
-        {loading && (
-          <View className="absolute inset-0 items-center justify-center bg-black/10">
-            <ActivityIndicator />
-          </View>
-        )}
-      </TouchableOpacity>
-    </View>
+
+        {/* 카카오 공식 이미지 버튼 */}
+        <TouchableOpacity
+          onPress={handleLogin}
+          disabled={loading}
+          activeOpacity={0.85}
+          accessibilityRole="button"
+          accessibilityLabel="카카오로 로그인"
+          className="w-full overflow-hidden rounded-[12px]"
+          style={{ opacity: loading ? 0.6 : 1 }}
+        >
+          <Image
+            source={KAKAO_BTN}
+            // 폭 100% + 비율 유지 (세로 크기는 비율로 자동 계산)
+            style={{ width: "100%", height: undefined, aspectRatio: btnRatio }}
+            resizeMode="contain"
+          />
+          {loading && (
+            <View className="absolute inset-0 items-center justify-center bg-black/10">
+              <ActivityIndicator />
+            </View>
+          )}
+        </TouchableOpacity>
+      </View>
+    </LinearGradient>
   );
 }
