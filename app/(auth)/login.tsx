@@ -60,11 +60,17 @@ export default function LoginScreen() {
 
   return (
     <View
-      className="flex-1 items-center justify-center p-4"
+      className="flex-1 items-center justify-center bg-point-1 p-4"
       style={{ paddingTop: insets.top }}
     >
-      <Text className="mb-4 text-2xl display1">로고</Text>
-      <Text className="mb-4 text-2xl text-point-4 display1">로그인 화면</Text>
+      <Text className="font-suit-bold text-[16px] text-point-4 body1">
+        빵 여행, 함께 떠나볼까요?
+      </Text>
+      <Text className="font-suit-bold text-[50px] leading-[1.4] text-point-4">
+        빵생빵사
+      </Text>
+
+      <View className="mb-14 mt-2 h-[200px] w-[375px] bg-grey-3"></View>
 
       {/* 카카오 공식 이미지 버튼 */}
       <TouchableOpacity
