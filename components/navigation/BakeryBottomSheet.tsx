@@ -11,12 +11,14 @@ import { ScrollView, ActivityIndicator } from "react-native";
 const PLACEHOLDER_IMG = require("@/assets/images/bread.png");
 
 export type Bakery = {
+  description: string;
   id: string;
   name: string;
   address: string;
   image: ImageSourcePropType;
   latitude: number;
   longitude: number;
+  kakaoId: string; //카카오 맵 id
 };
 
 type BakeryListItemProps = {

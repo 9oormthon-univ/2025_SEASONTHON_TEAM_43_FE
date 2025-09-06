@@ -28,6 +28,8 @@ import BakeryBottomSheet, {
 } from "@/components/navigation/BakeryBottomSheet";
 import KakaoMap from "@/components/common/KakaoMap";
 import MyLocationButton from "@/components/common/MyLocationButton";
+import BakeryDetailView from "@/components/detail/Detail_WebView";
+
 import { getMapList } from "@/remote/request/maplist";
 import type { MapListItem } from "@/remote/response/maplist";
 
@@ -51,7 +53,10 @@ export default function MapScreen() {
   });
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
-
+  const [selectedBakery, setSelectedBakery] = useState<Bakery | null>(null);  
+  const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);
+  const generalSnapPoints = useMemo(() => ['25%', '50%', '90%'], []);
+  const detailSnapPoints = useMemo(() => ['25%', '100%'], []);
   // ✅ API로 불러온 빵집 상태
   const [bakeries, setBakeries] = useState<Bakery[]>([]);
   const [loading, setLoading] = useState(true);
@@ -85,12 +90,14 @@ export default function MapScreen() {
 
       // MapListItem[] -> Bakery[] 매핑
       const mapped: Bakery[] = (data ?? []).map((it: MapListItem) => ({
+        description: "",
         id: it.id,
         name: it.name,
         address: it.address,
         image: PLACEHOLDER_IMG, // 서버가 이미지 제공 시 it.image 로 교체
         latitude: it.latitude,
         longitude: it.longitude,
+        kakaoId: it.id,
       }));
 
       setBakeries(mapped);
@@ -243,6 +250,22 @@ export default function MapScreen() {
     }
   };
 
+  const handleBottomSheetChange = (index: number) => { //바텀 시트 상태 관리
+      // selectedBakery가 있을 때만 상세 페이지 스냅 포인트(100%) 기준으로 확장 여부 결정
+      if (selectedBakery) {
+        setIsBottomSheetExpanded(index === 1); 
+      } else {
+        // selectedBakery가 없을 때, '내 주변 빵집' 리스트의 마지막 스냅 포인트(90%) 기준으로 확장 여부 결정
+        setIsBottomSheetExpanded(index === 2);
+      }
+   };
+
+   const handleCloseDetailView = () => { 
+    setSelectedBakery(null); // 선택된 빵집 초기화
+    bottomSheetRef.current?.collapse(); // 바텀 시트 접기
+  };
+
+
   const handleBakerySelect = (bakery: Bakery) => {
     setMapCenter({ latitude: bakery.latitude, longitude: bakery.longitude });
     bottomSheetRef.current?.snapToIndex(0);
@@ -260,7 +283,7 @@ export default function MapScreen() {
           />
         </View>
 
-        {!isSearchOverlayVisible && (
+        {!isSearchOverlayVisible && !isBottomSheetExpanded && (
           <View
             style={{ paddingTop: insets.top }}
             className="z-10 items-center"
@@ -281,10 +304,20 @@ export default function MapScreen() {
         <BottomSheet
           ref={bottomSheetRef}
           index={0}
-          snapPoints={snapPoints}
+          // ⭐️ selectedBakery 상태에 따라 snapPoints 동적으로 변경
+          snapPoints={selectedBakery ? detailSnapPoints : generalSnapPoints}
+          // ⭐️ onChange 핸들러 추가
+          onChange={handleBottomSheetChange}
           handleIndicatorStyle={{ backgroundColor: "#E5E7EB" }}
         >
-          {loading ? (
+          {/* ⭐️ 조건부 렌더링 로직 추가 */}
+          {selectedBakery ? (
+            <BakeryDetailView 
+                bakery={selectedBakery}
+                isExpanded={isBottomSheetExpanded}
+                onClose={handleCloseDetailView}
+            />
+          ) : loading ? (
             <View className="flex-1 items-center justify-center">
               <ActivityIndicator />
               <Text className="mt-2 text-gray-500">
@@ -295,7 +328,8 @@ export default function MapScreen() {
             <View className="flex-1 items-center justify-center px-6">
               <Text className="mb-3 text-center text-gray-600">{errorMsg}</Text>
               <TouchableOpacity
-                onPress={loadNearbyBakeries}
+                // loadNearbyBakeries 함수가 정의되어 있지 않아 주석 처리
+                // onPress={loadNearbyBakeries}
                 className="rounded-full bg-orange-500 px-5 py-3"
               >
                 <Text className="text-base font-bold text-white">
