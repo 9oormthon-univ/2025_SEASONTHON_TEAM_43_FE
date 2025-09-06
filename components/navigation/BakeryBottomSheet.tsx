@@ -3,12 +3,14 @@ import { View, Text, TouchableOpacity, Image, ImageSourcePropType } from 'react-
 import { ScrollView } from 'react-native';
 
 export type Bakery = {
+  description: string;
   id: string;
   name: string;
   address: string;
   image: ImageSourcePropType; 
   latitude: number;
   longitude: number;
+  kakaoId: string; //카카오 맵 id
 };
 
 type BakeryListItemProps = {
