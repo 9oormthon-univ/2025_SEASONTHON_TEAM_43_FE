@@ -1,12 +1,14 @@
 // components/BreadCard.tsx
 import React from "react";
 import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
+import { ImageSourcePropType } from "react-native";
 
 interface BreadCardProps {
-  image: any; // require(...) 또는 {uri: "..."}
+  image: ImageSourcePropType; // require(...) 또는 {uri: "..."}
   name: string;
   address: string;
   intro: string;
+  onPress: () => void;
 }
 
 export default function BreadCard({
@@ -14,9 +16,10 @@ export default function BreadCard({
   name,
   address,
   intro,
+  onPress,
 }: BreadCardProps) {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View className="mb-4 h-[218px] w-full overflow-hidden rounded-xl">
         <ImageBackground
           source={image}

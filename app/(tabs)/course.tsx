@@ -2,9 +2,14 @@ import { Text, View } from "react-native";
 import { ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BreadCard from "@/components/explore/BreadCard";
+import { router } from "expo-router";
 
 export default function BreadMapScreen() {
   const insets = useSafeAreaInsets();
+
+  const hadleBakery = () => {
+    // router.push("/(bakery-detail)");
+  };
 
   return (
     <View
@@ -32,18 +37,21 @@ export default function BreadMapScreen() {
           name="빠앙집"
           address="구 단위 혹은 읍면동 단위(구 없을 시)"
           intro="한줄소개최대30자라서여기말줄임표설정해뒀습니다참고부탁드려요"
+          onPress={hadleBakery}
         />
         <BreadCard
           image={require("../../assets/images/bread.png")}
           name="빠앙집"
           address="구 단위 혹은 읍면동 단위(구 없을 시)"
           intro="한줄소개최대30자라서여기말줄임표설정해뒀습니다참고부탁드려요"
+          onPress={hadleBakery}
         />
         <BreadCard
           image={require("../../assets/images/bread.png")}
           name="빠앙집"
           address="구 단위 혹은 읍면동 단위(구 없을 시)"
           intro="한줄소개최대30자라서여기말줄임표설정해뒀습니다참고부탁드려요"
+          onPress={hadleBakery}
         />
       </ScrollView>
     </View>
