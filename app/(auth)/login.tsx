@@ -47,6 +47,10 @@ export default function LoginScreen() {
       const kakaoAccessToken = result.accessToken;
       console.log("카카오 액세스 토큰:", kakaoAccessToken);
 
+      await Promise.all([
+        SecureStore.setItemAsync("kakaoAccessToken", kakaoAccessToken),
+      ]);
+
       await login(kakaoAccessToken);
       console.log("카카오 로그인 성공, 서버 토큰 발급 완료");
       router.replace("/(onboarding)/allow-permission");
