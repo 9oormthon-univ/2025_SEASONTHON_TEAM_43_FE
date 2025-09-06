@@ -7,11 +7,10 @@
 import React from 'react';
 import { View, Text, Linking, TouchableOpacity, Image } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { type Bakery } from '@/components/navigation/BakeryBottomSheet';
-import { isAxiosError } from 'axios';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Path } from 'react-native-svg';
+import { Edge, EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
+import { type Bakery } from '@/components/navigation/BakeryBottomSheet';
 import BackIcon from '@/assets/icons/ic_back_big.svg';
 import CloseIcon from '@/assets/icons/ic_close_big.svg';
 
@@ -21,56 +20,67 @@ interface BakeryDetailViewProps {
   onClose: () => void;
 }
 
-const BakeryDetailView: React.FC<BakeryDetailViewProps> = ({ bakery, isExpanded, onClose }) => {
+const DetailHeader = ({ bakeryName, onClose }: { bakeryName: string; onClose: () => void }) => {
   const insets = useSafeAreaInsets();
-  const getMapUrl = (query: string): string => {
-    // 카카오맵이나 네이버맵 상세 페이지 URL을 반환
-    return `https://place.map.kakao.com/${bakery.kakaoId}`;
-    /* return 'https://naver.me/FTXwFWCx'; */
-  };
+  return (
+    <View
+      style={{ paddingTop: insets.top }}
+      className="flex-row items-center justify-between px-4 py-2 bg-white border-b border-gray-200"
+    >
+      <TouchableOpacity onPress={onClose} className="p-1">
+        <BackIcon width={40} height={40} />
+      </TouchableOpacity>
+      <Text className="text-lg font-bold" numberOfLines={1}>
+        {bakeryName}
+      </Text>
+      <TouchableOpacity onPress={onClose} className="p-1">
+        <CloseIcon width={40} height={40} />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
-  const mapSearchUrl = getMapUrl(bakery.name);
+const BakeryDetailView: React.FC<BakeryDetailViewProps> = ({ bakery, isExpanded, onClose }) => {
+  const mapUrl = `https://place.map.kakao.com/${bakery.kakaoId}`;
 
   return (
-    <View className="flex-1 bg-white">
-      <View 
-          style={{ paddingTop: insets.top }} 
-          className="flex-row items-center justify-between px-4 py-3 bg-white border-b border-gray-200"
-        >
-          <TouchableOpacity onPress={onClose} className="p-2">
-            <BackIcon width={40} height={40} />
-          </TouchableOpacity>
-          <Text className="text-lg font-bold">{bakery.name}</Text>
-          <TouchableOpacity onPress={onClose} className="p-2">
-            <CloseIcon width={40} height={40} />
-          </TouchableOpacity>
-        </View>
-      {/* 미리보기 카드 뷰 (바텀 시트가 절반 높이일 때 보임) */}
+    <View style={{ flex: 1 }}>
+      {isExpanded && <DetailHeader bakeryName={bakery.name} onClose={onClose} />}
+
+      {/* 카드 뷰 (isExpanded=false일 때만 보여줌) */}
       {!isExpanded && (
-        <View className="px-4 pt-2 pb-4">
-          <Text className="text-2xl font-bold">{bakery.name}</Text>
-          <Text className="text-gray-600 mt-1">{bakery.address}</Text>
-          {/* 다른 미리보기 정보 */}
+        <BottomSheetScrollView>
+          <View className="p-5">
+            <Image
+              source={typeof bakery.image === 'string' ? { uri: bakery.image } : bakery.image}
+              className="w-full h-48 mb-4 rounded-lg bg-gray-200"
+              resizeMode="cover"
+            />
+            <Text className="text-2xl font-bold text-gray-800">{bakery.name}</Text>
+            <Text className="mt-2 text-base text-gray-600">{bakery.address}</Text>
+            <Text className="mt-4 text-gray-500">
+            </Text>
+          </View>
+        </BottomSheetScrollView>
+      )}
+
+      {/* 웹뷰 (isExpanded=true일 때만 보여줌) */}
+      {isExpanded && (
+        <View style={{ flex: 1 }}>
+          <WebView source={{ uri: mapUrl }} style={{ flex: 1, backgroundColor: 'transparent' }} />
+          {/* 카카오맵 상단 바 가리는 오버레이 */}
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 50,
+              backgroundColor: 'white',
+            }}
+          />
         </View>
       )}
-      
-      {/* 웹뷰 영역 (꽉 찬 화면에서만 보여줌) */}
-      <View className={`flex-1 ${isExpanded ? '' : 'hidden'}`}>
-        <WebView
-          source={{ uri: mapSearchUrl }}
-          className="flex-1"
-        />
-         <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 50, 
-            backgroundColor: 'white', //카카오 맵 상단 바 가림
-          }}
-        />
-      </View>
     </View>
   );
 };

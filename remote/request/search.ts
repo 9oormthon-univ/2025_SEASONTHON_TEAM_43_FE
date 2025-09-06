@@ -18,7 +18,7 @@ export const searchBakeries = async (
     const { query, radius, size, lat, lng } = params;
 	try {
 		const {data} = await axiosInstance.get<SearchResponse>(
-			"/api/bakery/search",
+			"/api/search/bakeries",
 			{
 				...(config ?? {}),
 				params: {
