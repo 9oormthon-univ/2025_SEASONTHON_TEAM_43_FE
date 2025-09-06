@@ -12,8 +12,8 @@ import { isAxiosError } from 'axios';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 
-import BackIcon from '../../assets/icons/ic_back_big.svg';
-import CloseIcon from '../../assets/icons/ic_close_big.svg';
+import BackIcon from '@/assets/icons/ic_back_big.svg';
+import CloseIcon from '@/assets/icons/ic_close_big.svg';
 
 interface BakeryDetailViewProps {
   bakery: Bakery;
