@@ -35,14 +35,6 @@ import type { MapListItem } from "@/remote/response/maplist";
 
 const PLACEHOLDER_IMG = require("../../assets/images/bread.png");
 
-// const nearbyBakeries: Bakery[] = [
-//   { id: '1', name: '성심당', address: '대전광역시 중구 대종로480번길 15', image: require('../../assets/images/bread.png'), latitude: 36.3275, longitude: 127.4276 },
-//   { id: '2', name: '태극당', address: '서울특별시 중구 동호로24길 7', image: require('../../assets/images/bread.png'), latitude: 37.5621, longitude: 127.0003 },
-//   { id: '3', name: '안스 베이커리', address: '인천광역시 연수구...', image: require('../../assets/images/bread.png'), latitude: 37.4042, longitude: 126.6778 },
-//   { id: '4', name: '성심당 롯데백화점 대전점', address: '대전광역시 서구 계룡로 598', image: require('../../assets/images/bread.png'), latitude: 36.3400, longitude: 127.3879 },
-//   { id: '5', name: '하레하레 본점', address: '대전광역시 서구 계룡로 612', image: require('../../assets/images/bread.png'), latitude: 36.3405, longitude: 127.3890 },
-// ];
-
 export default function MapScreen() {
   const insets = useSafeAreaInsets();
   const [isSearchOverlayVisible, setIsSearchOverlayVisible] = useState(false);
@@ -53,10 +45,11 @@ export default function MapScreen() {
   });
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
-  const [selectedBakery, setSelectedBakery] = useState<Bakery | null>(null);  
+  const [selectedBakery, setSelectedBakery] = useState<Bakery | null>(null);
   const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);
-  const generalSnapPoints = useMemo(() => ['25%', '50%', '90%'], []);
-  const detailSnapPoints = useMemo(() => ['25%', '100%'], []);
+  const generalSnapPoints = useMemo(() => ["25%", "50%", "90%"], []);
+  const detailSnapPoints = useMemo(() => ["25%", "100%"], []);
+
   // ✅ API로 불러온 빵집 상태
   const [bakeries, setBakeries] = useState<Bakery[]>([]);
   const [loading, setLoading] = useState(true);
@@ -84,20 +77,20 @@ export default function MapScreen() {
       const data = await getMapList({
         lat: coords.latitude,
         lng: coords.longitude,
-        // radius: '500',
-        // size: '5',
+        radius: "500", // 선택으로
+        size: "5", // 선택으로
       });
 
       // MapListItem[] -> Bakery[] 매핑
       const mapped: Bakery[] = (data ?? []).map((it: MapListItem) => ({
         description: "",
-        id: it.id,
+        id: String(it.id),
         name: it.name,
         address: it.address,
         image: PLACEHOLDER_IMG, // 서버가 이미지 제공 시 it.image 로 교체
         latitude: it.latitude,
         longitude: it.longitude,
-        kakaoId: it.id,
+        kakaoId: String(it.id),
       }));
 
       setBakeries(mapped);
@@ -250,21 +243,21 @@ export default function MapScreen() {
     }
   };
 
-  const handleBottomSheetChange = (index: number) => { //바텀 시트 상태 관리
-      // selectedBakery가 있을 때만 상세 페이지 스냅 포인트(100%) 기준으로 확장 여부 결정
-      if (selectedBakery) {
-        setIsBottomSheetExpanded(index === 1); 
-      } else {
-        // selectedBakery가 없을 때, '내 주변 빵집' 리스트의 마지막 스냅 포인트(90%) 기준으로 확장 여부 결정
-        setIsBottomSheetExpanded(index === 2);
-      }
-   };
+  const handleBottomSheetChange = (index: number) => {
+    //바텀 시트 상태 관리
+    // selectedBakery가 있을 때만 상세 페이지 스냅 포인트(100%) 기준으로 확장 여부 결정
+    if (selectedBakery) {
+      setIsBottomSheetExpanded(index === 1);
+    } else {
+      // selectedBakery가 없을 때, '내 주변 빵집' 리스트의 마지막 스냅 포인트(90%) 기준으로 확장 여부 결정
+      setIsBottomSheetExpanded(index === 2);
+    }
+  };
 
-   const handleCloseDetailView = () => { 
+  const handleCloseDetailView = () => {
     setSelectedBakery(null); // 선택된 빵집 초기화
     bottomSheetRef.current?.collapse(); // 바텀 시트 접기
   };
-
 
   const handleBakerySelect = (bakery: Bakery) => {
     setMapCenter({ latitude: bakery.latitude, longitude: bakery.longitude });
@@ -312,10 +305,10 @@ export default function MapScreen() {
         >
           {/* ⭐️ 조건부 렌더링 로직 추가 */}
           {selectedBakery ? (
-            <BakeryDetailView 
-                bakery={selectedBakery}
-                isExpanded={isBottomSheetExpanded}
-                onClose={handleCloseDetailView}
+            <BakeryDetailView
+              bakery={selectedBakery}
+              isExpanded={isBottomSheetExpanded}
+              onClose={handleCloseDetailView}
             />
           ) : loading ? (
             <View className="flex-1 items-center justify-center">

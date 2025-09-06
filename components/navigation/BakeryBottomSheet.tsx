@@ -119,7 +119,7 @@ const BakeryBottomSheet: React.FC<BakeryBottomSheetProps> = ({
             내 주변 빵집
           </Text>
           <Text className="ml-2 text-sm text-gray-500">
-            반경 500m 내 빵집을 추천해드려요
+            반경 2km 내 빵집을 추천해드려요
           </Text>
         </View>
 
