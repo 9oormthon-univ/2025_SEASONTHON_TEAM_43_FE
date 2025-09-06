@@ -11,28 +11,27 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
 import { router } from "expo-router";
 import Active from "@/assets/icons/maker_active.svg";
+import * as SecureStore from "expo-secure-store";
 
 export default function DiaryScreen() {
   const insets = useSafeAreaInsets();
   const [loading, setLoading] = useState(false);
   const { logout } = useAuth();
 
-  const handelLogout = async () => {
+  const handleLogout = async () => {
     try {
       setLoading(true);
-      await logout();
-
-      // 4) (선택) 라우팅 초기화 - 로그아웃 후 로그인 화면으로
-      // 현재 화면이 이미 로그인 화면이면 생략 가능n
+      const kakaoToken = await SecureStore.getItemAsync("kakaoAccessToken"); // ✅ 여기!
+      if (!kakaoToken) throw new Error("카카오 토큰이 없습니다.");
+      await logout(kakaoToken);
       router.replace("/(auth)/login");
-    } catch (error) {
-      if (__DEV__) console.error("카카오 로그아웃 실패:", error);
-      Alert.alert("로그아웃 실패", "카카오 로그아웃 실패");
+    } catch (e) {
+      if (__DEV__) console.error(e);
+      Alert.alert("로그아웃 실패", "다시 시도해주세요.");
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: "#f0f0f0", paddingTop: insets.top }}
@@ -44,7 +43,7 @@ export default function DiaryScreen() {
         <Text className="pb-3 pt-6 font-suit-bold text-black title1">
           빵생빵사
         </Text>
-        <TouchableOpacity onPress={handelLogout}>
+        <TouchableOpacity onPress={handleLogout}>
           <Text className="border-b-grey-1 font-suit-semibold text-grey-1 caption1">
             로그아웃
           </Text>

@@ -9,7 +9,7 @@ import { KakaoLoginRequest, KakaoLoginResponse } from "../remote/response/auth";
 
 export const AuthContext = createContext<AuthContextType>({
   login: async () => {},
-  logout: () => {},
+  logout: async () => {},
   loading: true,
   isAuthReady: false,
 });
@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async (accessToken: string) => {
     try {
       setLoading(true);
-      // const body: KakaoLoginRequest = { accessToken };
       const res: KakaoLoginResponse = await loginKakao(accessToken);
 
       console.log("서버 로그인 응답:", res);
@@ -41,9 +40,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const logout = async () => {
+  const logout = async (accessToken: string) => {
     try {
-      await logoutKakao();
+      await logoutKakao(accessToken);
       await Promise.all([
         SecureStore.deleteItemAsync("accessToken"),
         SecureStore.deleteItemAsync("refreshToken"),

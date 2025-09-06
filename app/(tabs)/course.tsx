@@ -36,14 +36,14 @@ export default function ExploreScreen() {
       }
 
       // 2) 현재 위치
-      const { coords } = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
-      });
+      const { coords } = await Location.getCurrentPositionAsync();
 
       // 3) 추천 리스트
       const res = await getRecommendList({
-        lat: coords.latitude,
-        lng: coords.longitude,
+        // lat: coords.latitude,
+        // lng: coords.longitude,
+        lat: 36.35504119, // 대전역 좌표
+        lng: 127.3845475,
       });
 
       if (!res.success) {
