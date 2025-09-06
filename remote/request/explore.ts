@@ -16,6 +16,8 @@ export const getRecommendList = async (
         ...config,
       },
     );
+
+    console.log(data);
     return data;
   } catch (e: any) {
     console.log("url:", e?.config?.url, "method:", e?.config?.method);
