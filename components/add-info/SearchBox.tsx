@@ -5,7 +5,7 @@ import { View, TextInput, StyleSheet, Pressable } from "react-native";
 export default function SearchBox({
   onPress,
   interestArea,
-  setInterestArea
+  setInterestArea,
 }: {
   onPress: () => void;
   interestArea: string;
@@ -13,9 +13,22 @@ export default function SearchBox({
 }) {
   return (
     <Pressable onPress={onPress}>
-      <View className="bg-white px-5 py-[13px] rounded-[25px] items-center flex-row" style={styles.shadow}>
+      <View
+        className="flex-row items-center rounded-[25px] bg-white px-5 py-[13px]"
+        // style={styles.shadow}
+        style={{
+          shadowColor: "#222222",
+          shadowOffset: {
+            width: 0,
+            height: 0,
+          },
+          shadowOpacity: 0.1,
+          shadowRadius: 5,
+          elevation: 5,
+        }}
+      >
         <TextInput
-          className="flex-1 body4 font-suit-regular font-normal text-grey-4"
+          className="flex-1 font-suit-regular font-normal text-grey-4 body4"
           placeholder="내 지역을 찾아보세요"
           placeholderTextColor="#9ca3af"
           value={interestArea}
@@ -35,6 +48,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 10,
     // Android
-    elevation: 25
-  }
+    elevation: 25,
+  },
 });

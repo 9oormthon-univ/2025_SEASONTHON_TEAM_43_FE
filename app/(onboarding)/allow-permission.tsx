@@ -4,6 +4,7 @@ import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import AgreementItem from "../../components/allow-permission/AgreementItem";
 import { AGREEMENT_TERMS, AgreementKey } from "../../constants/terms";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function AllowPermissionScreen() {
   const insets = useSafeAreaInsets();
@@ -20,6 +21,32 @@ export default function AllowPermissionScreen() {
       ...prev,
       [key]: !prev[key],
     }));
+  };
+
+  const handleNext = async () => {
+    // 필수 3개 동의 체크
+    if (!(agreements.service && agreements.privacy && agreements.location))
+      return;
+
+    try {
+      // 1) 온보딩 완료 플래그
+      await AsyncStorage.setItem("onboarding_done", "true");
+
+      // 2) (선택) 동의 상세값 저장: 나중에 설정화면/서버전송에 활용 가능
+      await AsyncStorage.setItem(
+        "agreement_prefs",
+        JSON.stringify({
+          ...agreements,
+          updatedAt: new Date().toISOString(),
+        }),
+      );
+
+      // 3) 다음 화면으로 이동
+      router.push("/(onboarding)/add-info");
+    } catch (e) {
+      console.warn("[AllowPermission] 저장 실패:", e);
+      // 필요하면 토스트/알럿 처리
+    }
   };
 
   return (
@@ -75,21 +102,12 @@ export default function AllowPermissionScreen() {
         style={{ paddingBottom: insets.bottom + 40 }}
       >
         <TouchableOpacity
-          className={`px-20 py-3 rounded-lg ${
+          className={`rounded-lg px-20 py-3 ${
             agreements.service && agreements.privacy && agreements.location
               ? "bg-point-3"
               : "bg-gray-300"
           }`}
-          onPress={() => {
-            // 필수 동의 항목 3개가 모두 동의되었을 때만 다음 화면으로 이동
-            if (
-              agreements.service &&
-              agreements.privacy &&
-              agreements.location
-            ) {
-              router.push("/(onboarding)/add-info");
-            }
-          }}
+          onPress={handleNext}
           disabled={
             !(agreements.service && agreements.privacy && agreements.location)
           }
@@ -100,7 +118,7 @@ export default function AllowPermissionScreen() {
           }
         >
           <Text
-            className={`text-center body3 font-bold ${
+            className={`text-center font-bold body3 ${
               agreements.service && agreements.privacy && agreements.location
                 ? "text-point-1"
                 : "text-gray-500"

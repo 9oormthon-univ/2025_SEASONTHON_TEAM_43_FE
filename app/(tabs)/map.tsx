@@ -29,6 +29,7 @@ import BakeryBottomSheet, {
 import KakaoMap from "@/components/common/KakaoMap";
 import MyLocationButton from "@/components/common/MyLocationButton";
 import BakeryDetailView from "@/components/detail/Detail_WebView";
+
 import { getMapList } from "@/remote/request/maplist";
 import type { MapListItem } from "@/remote/response/maplist";
 
@@ -56,7 +57,6 @@ export default function MapScreen() {
   const [isBottomSheetExpanded, setIsBottomSheetExpanded] = useState(false);
   const generalSnapPoints = useMemo(() => ['25%', '50%', '90%'], []);
   const detailSnapPoints = useMemo(() => ['25%', '100%'], []);
-  
   // ✅ API로 불러온 빵집 상태
   const [bakeries, setBakeries] = useState<Bakery[]>([]);
   const [loading, setLoading] = useState(true);

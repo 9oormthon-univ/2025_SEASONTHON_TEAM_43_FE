@@ -23,7 +23,7 @@ const KAKAO_BTN = require("@/assets/images/kakao_login_large_wide.png");
 
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
-  const { login, logout } = useAuth();
+  const { login } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [btnRatio, setBtnRatio] = useState(6); // 이미지 가로/세로 비율 (대략값)
@@ -58,22 +58,6 @@ export default function LoginScreen() {
     }
   };
 
-  const handelLogout = async () => {
-    try {
-      setLoading(true);
-      await logout();
-
-      // 4) (선택) 라우팅 초기화 - 로그아웃 후 로그인 화면으로
-      // 현재 화면이 이미 로그인 화면이면 생략 가능
-      router.replace("/(auth)/login");
-    } catch (error) {
-      if (__DEV__) console.error("카카오 로그아웃 실패:", error);
-      Alert.alert("로그아웃 실패", "카카오 로그아웃 실패");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <View
       className="flex-1 items-center justify-center p-4"
@@ -104,10 +88,6 @@ export default function LoginScreen() {
           </View>
         )}
       </TouchableOpacity>
-
-      {/* <Pressable onPress={handelLogout}>
-        <Text>로그아웃</Text>
-      </Pressable> */}
     </View>
   );
 }

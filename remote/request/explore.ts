@@ -1,14 +1,14 @@
-import { MapListRequest, MapListResponse } from "../response/maplist";
+import { ExploreRequest, ExploreResponse } from "../response/explore";
 import { axiosInstance } from "../axios";
 import type { AxiosRequestConfig } from "axios";
 
-export const getMapList = async (
-  body: MapListRequest,
+export const getRecommendList = async (
+  body: ExploreRequest,
   config?: AxiosRequestConfig,
-): Promise<MapListResponse> => {
+): Promise<ExploreResponse> => {
   try {
-    const { data } = await axiosInstance.post<MapListResponse>(
-      "/api/bakery/list",
+    const { data } = await axiosInstance.post<ExploreResponse>(
+      "/api/recommend/bakeries",
       body,
       config,
     );
