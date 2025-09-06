@@ -28,7 +28,7 @@ export default function RootLayout() {
         const onboardingDone = await AsyncStorage.getItem("onboarding_done");
 
         if (!token) {
-          setRoute("/(onboarding)/allow-permission");
+          setRoute("/(auth)/login");
         } else if (token && onboardingDone !== "true") {
           setRoute("/(onboarding)/allow-permission");
         } else {
