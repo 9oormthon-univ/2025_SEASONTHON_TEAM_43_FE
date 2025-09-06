@@ -134,7 +134,7 @@ export default function AddInfoScreen() {
               canSubmit ? "text-point-1" : "text-gray-500"
             }`}
           >
-            회원가입하기
+            시작하기
           </Text>
         </TouchableOpacity>
       </View>
