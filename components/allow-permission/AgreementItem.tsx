@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import ScrollDownIcon from "../../assets/images/ic_scroll_down.svg";
 import ScrollUpIcon from "../../assets/images/ic_scroll_up.svg";
+import { Ionicons } from "@expo/vector-icons";
 
 interface AgreementItemProps {
   title: string;
@@ -44,29 +45,29 @@ export default function AgreementItem({
   });
 
   return (
-    <View className="bg-white overflow-hidden px-6">
+    <View className="overflow-hidden bg-white px-6">
       <View className="border-b-[1px] border-grey-3 py-3">
         {/* 헤더 부분 */}
         <View>
           <View className="flex-row items-center justify-between">
             <TouchableOpacity
-              onPress={toggleExpanded}
-              className="flex-1 mr-4"
+              onPress={() => onValueChange(!value)}
               activeOpacity={0.7}
+              className="mr-4 flex-1 flex-row items-center"
             >
-              <Text className="body4 text-black">
+              <Ionicons
+                name={value ? "checkbox" : "square-outline"}
+                size={22}
+                color={value ? "#D56E14" : "#9ca3af"}
+                style={{ marginRight: 8 }}
+              />
+              <Text className="text-black body4">
                 {title}
                 {isRequired && (
-                  <Text className="text-red-500 font-bold"> *</Text>
+                  <Text className="font-bold text-red-500"> *</Text>
                 )}
               </Text>
             </TouchableOpacity>
-
-            <Switch
-              value={value}
-              onValueChange={onValueChange}
-              className="transform scale-1"
-            />
 
             <Pressable onPress={toggleExpanded}>
               {isExpanded ? <ScrollUpIcon /> : <ScrollDownIcon />}
@@ -84,7 +85,7 @@ export default function AgreementItem({
                   nestedScrollEnabled={true}
                   className="max-h-48"
                 >
-                  <Text className="caption1 text-grey-4">{content}</Text>
+                  <Text className="text-grey-4 caption1">{content}</Text>
                 </ScrollView>
               </View>
             </View>
