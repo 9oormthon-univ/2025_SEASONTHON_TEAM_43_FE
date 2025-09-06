@@ -1,31 +1,27 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, View, Image } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+const AppLogo = require("@/assets/images/logo.png");
 
 export default function Index() {
+  const insets = useSafeAreaInsets();
   const router = useRouter();
-  //   const { user, loading, isAuthReady } = useAuth();
 
-  //   useEffect(() => {
-  //     if (!isAuthReady) return;
-
-  //     if (user) {
-  //       router.replace('/(tabs)');
-  //     } else {
-  //       router.replace('/(onboarding)');
-  //     }
-  //   }, [isAuthReady, user]);
-
-  // 준비가 안 됐거나 로딩 중일 땐 로딩 스피너만 보여줌
-  //   if (!isAuthReady || loading) {
-  //     return (
-  //       <View className="flex-1 justify-center items-center">
-  //         <ActivityIndicator size="large" />
-  //       </View>
-  //     );
-  //   }
-
-  // 실제로는 여기에 도달할 일이 거의 없음 (router.replace로 넘어감)
-  return null;
+  return (
+    <LinearGradient
+      // 그라데이션 색상 배열
+      colors={["#FFD796", "#FFEDCF"]}
+      // 시작/끝 위치 (x, y는 0~1 사이 비율)
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      className="flex-1 items-center justify-center"
+      style={{ paddingTop: insets.top }}
+    >
+      <Image source={AppLogo} className="h-[115px] w-[300px]" />
+    </LinearGradient>
+  );
 }

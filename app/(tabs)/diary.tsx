@@ -6,12 +6,15 @@ import {
   Text,
   TouchableOpacity,
   Alert,
+  Image,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
 import { router } from "expo-router";
 import Active from "@/assets/icons/maker_active.svg";
 import * as SecureStore from "expo-secure-store";
+
+const ProfileIcon = require("@/assets/images/profileIcon.png");
 
 export default function DiaryScreen() {
   const insets = useSafeAreaInsets();
@@ -34,17 +37,21 @@ export default function DiaryScreen() {
   };
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: "#f0f0f0", paddingTop: insets.top }}
+      style={{
+        flex: 1,
+        backgroundColor: "#f0f0f0",
+        paddingTop: insets.top + 26,
+      }}
     >
-      <View className="flex-1 items-center justify-center">
+      <View className="flex-1 items-center">
         {/* 이미지 변경해야 함 */}
-        <Active />
+        <Image source={ProfileIcon} />
 
-        <Text className="pb-3 pt-6 font-suit-bold text-black title1">
+        <Text className="pb-3 pt-6 font-suit-bold font-bold text-black title1">
           빵생빵사
         </Text>
         <TouchableOpacity onPress={handleLogout}>
-          <Text className="border-b-grey-1 font-suit-semibold text-grey-1 caption1">
+          <Text className="border-b-grey-1 font-suit-semibold font-semibold text-grey-1 caption1">
             로그아웃
           </Text>
         </TouchableOpacity>
