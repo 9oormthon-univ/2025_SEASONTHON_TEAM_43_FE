@@ -7,9 +7,7 @@
     "preview": {
       "distribution": "internal",
       "developmentClient": false,
-      "android": {
-        "buildType": "app-bundle"
-      },
+      "android": { "buildType": "apk" },
       "env": {
         "EXPO_PUBLIC_API_BASE_URL": "https://bread-life-spring-local.onrender.com",
         "EXPO_PUBLIC_NATIVE_APP_KEY": "083512cd4066153c92c1f28bfed50a2b",
