@@ -42,26 +42,44 @@ export default function LoginScreen() {
   }, []);
 
   const handleLogin = async () => {
-    if (__DEV__) {
-      console.log(await getKeyHashAndroid());
-    }
     try {
+      // 🔎 릴리스에서도 키 해시 확인(임시)
+      const keyHash = await getKeyHashAndroid();
+      console.log("[KAKAO KEY HASH]", keyHash);
+
+      // 1) 카카오 SDK 로그인
       const result = await kakaoLogin();
-      const kakaoAccessToken = result.accessToken;
-      console.log("카카오 액세스 토큰:", kakaoAccessToken);
+      const kakaoAccessToken = result?.accessToken;
+      console.log("[KAKAO ACCESS TOKEN]", kakaoAccessToken);
 
-      await Promise.all([
-        SecureStore.setItemAsync("kakaoAccessToken", kakaoAccessToken),
-      ]);
-
-      await login(kakaoAccessToken);
-      console.log("카카오 로그인 성공, 서버 토큰 발급 완료");
-      router.replace("/(onboarding)/allow-permission");
-    } catch (error) {
-      if (__DEV__) {
-        console.error("카카오 로그인 실패:", error);
+      if (!kakaoAccessToken) {
+        throw new Error("No Kakao access token returned");
       }
-      Alert.alert("로그인 실패", "카카오 로그인이 취소되었어요.");
+
+      await SecureStore.setItemAsync("kakaoAccessToken", kakaoAccessToken);
+
+      // 2) 우리 서버에 토큰 교환/로그인
+      try {
+        await login(kakaoAccessToken);
+        console.log("[SERVER LOGIN] success");
+        router.replace("/(onboarding)/allow-permission");
+      } catch (serverErr: any) {
+        const status = serverErr?.response?.status;
+        const data = serverErr?.response?.data;
+        console.log("[SERVER LOGIN FAIL]", status, data);
+        Alert.alert(
+          "로그인 실패(서버)",
+          `백엔드 응답 상태: ${status ?? "unknown"}\n${typeof data === "string" ? data : JSON.stringify(data ?? {})}`,
+        );
+      }
+    } catch (sdkErr: any) {
+      console.log("[KAKAO LOGIN FAIL]", sdkErr);
+      const msg =
+        typeof sdkErr?.message === "string"
+          ? sdkErr.message
+          : JSON.stringify(sdkErr ?? {});
+      // 흔한 원인 힌트 포함
+      Alert.alert("카카오 로그인 실패", msg);
     }
   };
 
