@@ -7,34 +7,16 @@
     "preview": {
       "distribution": "internal",
       "developmentClient": false,
-      "android": {
-        "workflow": "managed",
-        "buildType": "apk"
-      },
-      "ios": {
-        "workflow": "managed"
-      }
+      "android": { "buildType": "apk" }
     },
     "production": {
       "autoIncrement": true,
-      "developmentClient": false,
-      "android": {
-        "workflow": "managed"
-      },
-      "ios": {
-        "workflow": "managed"
-      }
+      "developmentClient": false
     },
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "android": {
-        "workflow": "managed"
-      },
-      "ios": {
-        "workflow": "managed",
-        "simulator": true
-      }
+      "ios": { "simulator": true }
     }
   },
   "submit": {
