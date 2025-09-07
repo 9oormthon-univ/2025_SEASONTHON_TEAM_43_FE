@@ -4,18 +4,37 @@
     "appVersionSource": "remote"
   },
   "build": {
+    "preview": {
+      "distribution": "internal",
+      "developmentClient": false,
+      "android": {
+        "workflow": "managed",
+        "buildType": "apk"
+      },
+      "ios": {
+        "workflow": "managed"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "developmentClient": false,
+      "android": {
+        "workflow": "managed"
+      },
+      "ios": {
+        "workflow": "managed"
+      }
+    },
     "development": {
       "developmentClient": true,
       "distribution": "internal",
+      "android": {
+        "workflow": "managed"
+      },
       "ios": {
+        "workflow": "managed",
         "simulator": true
       }
-    },
-    "preview": {
-      "distribution": "internal"
-    },
-    "production": {
-      "autoIncrement": true
     }
   },
   "submit": {
